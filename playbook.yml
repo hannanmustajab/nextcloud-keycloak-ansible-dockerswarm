@@ -1,0 +1,15 @@
+---
+- name: Common part of the playbook for both nodes
+  hosts: all
+  become: true
+  roles:
+  - nfs
+  - docker
+  - docker_swarm
+  - registry
+  - database
+  - keycloak
+  - nextcloud
+  - monitoring
+  - logging
+  - dashboard
