@@ -1,0 +1,16 @@
+---
+- name: "Create NFS export directory {{ nfs_share_path }}"
+  ansible.builtin.file:
+    path: "{{ nfs_share_path }}"
+    state: directory
+
+- name: Install NFS server
+  ansible.builtin.apt:
+    name: nfs-kernel-server
+
+- name: Template NFS /etc/exports
+  ansible.builtin.template:
+    src: exports
+    dest: /etc/exports
+  notify:
+  - Restart NFS server

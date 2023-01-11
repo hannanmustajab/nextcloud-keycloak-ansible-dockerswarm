@@ -1,15 +1,37 @@
 ---
+- name: NFS server part
+  hosts: nfs-servers
+  become: true
+  roles:
+  - nfs/nfs-server
+
+- name: NFS client part
+  hosts: nfs-clients
+  become: true
+  roles:
+  - nfs/nfs-client
+
 - name: Common part of the playbook for both nodes
   hosts: all
   become: true
   roles:
-  - nfs
   - docker
-  - docker_swarm
-  - registry
-  - database
-  - keycloak
-  - nextcloud
-  - monitoring
-  - logging
-  - dashboard
+  #- registry
+  #- database
+  #- keycloak
+  #- nextcloud
+  #- monitoring
+  #- logging
+  #- dashboard
+
+- name: init Docker swarm
+  hosts: swarm-managers
+  become: true
+  roles:
+  - docker_swarm/init
+
+- name: join Docker swarm
+  hosts: swarm-workers
+  become: true
+  roles:
+  - docker_swarm/join

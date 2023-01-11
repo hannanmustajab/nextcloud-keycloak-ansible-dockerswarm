@@ -16,19 +16,19 @@ ansible-prepare: update-venv
 
 .PHONY: run-ansible
 run-ansible: ansible-prepare
-	. $(VENV_ACTIVATE_PATH) && ansible-playbook \
+	. $(VENV_ACTIVATE_PATH) && ansible-playbook\
 		--inventory inventory.yml \
 		--ssh-common-args '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' \
-		--verbose \
+		-verbose\
 		$(ANSIBLE_ARGS) \
-		$(ANSIBLE_PLAYBOOK)
+		$(ANSIBLE_PLAYBOOK) --vault-password-file=vault.txt
 
 .PHONY: run-ansible
 run-ansible-lint: update-venv
 	. $(VENV_ACTIVATE_PATH) && ansible-lint \
 		--format rich \
 		--profile production \
-		$(ANSIBLE_PLAYBOOK)
+		$(ANSIBLE_PLAYBOOK) 
 
 .PHONY: add-role
 add-role:
@@ -56,10 +56,15 @@ venv:
 	python3 -m venv $(VENV_PATH)
 	$(MAKE) update-venv
 
-.PHONY: update-venv
+#added the sudo because the pip doesn't works
+#sudo apt-get -y install python3-pip &&\
+ sudo apt install sshpass &&\
+
 update-venv: venv
-	. $(VENV_ACTIVATE_PATH) && \
-	pip install --upgrade pip && \
+	pip install --upgrade pip &&\
+	pip install --upgrade virtualenv &&\
+	virtualenv -p python3 venv &&\
+	. $(VENV_ACTIVATE_PATH) &&\
 	pip install -r requirements.txt
 
 #

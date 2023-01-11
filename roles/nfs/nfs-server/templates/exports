@@ -1,0 +1,6 @@
+---
+# {{ ansible_managed }}
+{% for node in groups['nfs-clients'] %}
+# Index: {{ loop.index }} Index0: {{ loop.index0 }} Hostname: {{ node }}
+{{ nfs_share_path }} {{ hostvars[node]['ansible_storage'] }}({{ nfs_export_options | join(',') }})
+{% endfor %}

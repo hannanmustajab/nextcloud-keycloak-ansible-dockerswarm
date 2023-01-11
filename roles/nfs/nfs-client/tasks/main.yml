@@ -1,0 +1,17 @@
+---
+- name: Install NFS client
+  ansible.builtin.apt:
+    name: nfs-common
+
+- name: "Create NFS mount directory {{ nfs_share_path }}"
+  ansible.builtin.file:
+    path: "{{ nfs_share_path }}"
+    state: directory
+
+- name: Mount NFS
+  ansible.posix.mount:
+    src: "{{ hostvars[ groups['nfs-servers'] | first ]['ansible_storage'] }}:{{ nfs_share_path }}"
+    path: "{{ nfs_share_path }}"
+    opts: rw,sync
+    fstype: nfs
+    state: mounted
