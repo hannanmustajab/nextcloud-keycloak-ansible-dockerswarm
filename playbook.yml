@@ -16,6 +16,7 @@
   become: true
   roles:
   - docker
+  - docker_swarm
   #- registry
   #- database
   #- keycloak
@@ -23,15 +24,3 @@
   #- monitoring
   #- logging
   #- dashboard
-
-- name: init Docker swarm
-  hosts: swarm-managers
-  become: true
-  roles:
-  - docker_swarm/init
-
-- name: join Docker swarm
-  hosts: swarm-workers
-  become: true
-  roles:
-  - docker_swarm/join

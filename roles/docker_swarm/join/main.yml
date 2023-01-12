@@ -1,7 +1,0 @@
----
-- name: Add nodes
-  docker_swarm:
-    state: join
-    advertise_addr: "{{ ansible_host }}"
-    join_token: "{{ hostvars['swarm-mangers']['worker_token']['stdout'] }}"
-    remote_addrs: [ "{{ hostvars['swarm-managers']['ansible_default_ipv4']['address'] }}:2377" ]
