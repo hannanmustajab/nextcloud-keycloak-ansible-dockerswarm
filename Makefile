@@ -61,11 +61,11 @@ venv:
  sudo apt install sshpass &&\
 
 update-venv: venv
-	pip install --upgrade pip &&\
-	pip install --upgrade virtualenv &&\
+	pip3 install --upgrade pip &&\
+	pip3 install --upgrade virtualenv &&\
 	virtualenv -p python3 venv &&\
 	. $(VENV_ACTIVATE_PATH) &&\
-	pip install -r requirements.txt
+	pip3 install -r requirements.txt
 
 #
 # VCC

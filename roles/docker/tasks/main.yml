@@ -13,6 +13,15 @@
     state: latest
     update_cache: true
 
+- name: Install PIP
+  ansible.builtin.apt:
+    name: python3-pip
+    state: latest
+    update_cache: true
+ 
+
+
 - name: Install Docker Module for Python
   ansible.builtin.pip:
     name: docker
+
