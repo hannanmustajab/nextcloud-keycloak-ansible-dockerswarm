@@ -1,0 +1,26 @@
+---
+version: 0.1
+name: registry_configuration
+log:
+  fields:
+    service: registry
+storage:
+  filesystem:
+    rootdirectory: /var/lib/registry
+http:
+  addr: :5000
+  headers:
+    X-Content-Type-Options: [nosniff]
+auth:
+  htpasswd:
+    realm: basic-realm
+    path: /data/docker-registry/htpasswd
+#health:
+#  storagedriver:
+#    enabled: true
+#    interval: 10s
+#    threshold: 3
+insecure:
+  - "127.0.0.1:5000"
+mirrors:
+  - http://127.0.0.1:5001
