@@ -1,1 +1,9 @@
 ---
+registry_image: distribution/distribution:2.8.1
+registry_port: 5000
+registry_cache_port: 5001
+registry_volume: /data/docker-registry
+registry_cache: /data/docker-registry-cache
+registry_service: registry
+registry_hostmanager: "{{ hostvars[ groups['swarm-managers'] | first ]['ansible_host'] }}"
+registry_localhost: 127.0.0.1

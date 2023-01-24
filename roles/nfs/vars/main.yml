@@ -1,0 +1,2 @@
+---
+ansible_host_node1: "{{ hostvars[ groups['nfs-servers'] | first ]['ansible_host'] }}"

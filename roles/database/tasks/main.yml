@@ -1,1 +1,34 @@
----
+- name: "Create NFS postgresql in /data"
+  ansible.builtin.file:
+    path: "/data/postgresql"
+    state: directory
+  when: inventory_hostname is in groups['swarm-managers']
+
+
+- name: Pull the PostgreSQL image
+  docker_image:
+    name: postgres:15.1
+    source: pull
+
+- name: Create a PostgreSQL service
+  docker_swarm_service:
+    name: postgres
+    image: postgres:15.1
+    state: present
+    publish:
+      - published_port: "5432"
+        target_port: "5432"
+    env:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    mounts:
+      - source: /data/postgresql
+        target: /var/lib/postgresql/data
+        type: bind
+  when: inventory_hostname is in groups['swarm-managers']
+
+# - name: Deploy the service
+#   docker_swarm_service:
+#     name: postgres
+#     state: present
+#   when: inventory_hostname is in groups['swarm-managers']

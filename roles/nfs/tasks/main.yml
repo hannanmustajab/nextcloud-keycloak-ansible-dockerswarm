@@ -1,0 +1,53 @@
+---
+- name: Install NFS server on node1
+  ansible.builtin.apt:
+    name: nfs-kernel-server
+    state: present
+  when: inventory_hostname is in groups['nfs-servers']
+
+- name: Create data directory on node1
+  ansible.builtin.file:
+    path: /data
+    state: directory
+  when: inventory_hostname is in groups['nfs-servers']
+
+- name: Template NFS /etc/exports
+  ansible.builtin.template:
+    src: exports
+    dest: /etc/exports
+  notify:
+  - Restart NFS server
+  when: inventory_hostname is in groups['nfs-servers']
+
+- name: Restart NFS service on node1
+  ansible.builtin.service:
+    name: nfs-kernel-server
+    state: restarted
+  when: inventory_hostname is in groups['nfs-servers']
+
+- name: Install NFS client on node2
+  ansible.builtin.apt:
+    name: nfs-common
+    state: present
+  when: inventory_hostname is in groups['nfs-clients']
+
+- name: Create mount point on node2
+  ansible.builtin.file:
+    path: /mnt/data
+    state: directory
+  when: inventory_hostname is in groups['nfs-clients']
+
+- name: Mount NFS share on node2
+  ansible.builtin.mount:
+    src: "{{ ansible_host_node1 }}:/data"
+    path: "/mnt/data"
+    fstype: nfs
+    state: mounted
+  when: inventory_hostname is in groups['nfs-clients']
+
+- name: Add NFS share to fstab on node2
+  ansible.builtin.lineinfile:
+    path: /etc/fstab
+    line: "{{ ansible_host_node1 }}:/data /mnt/data nfs defaults 0 0"
+    state: present
+  when: inventory_hostname is in groups['nfs-clients']
