@@ -1,27 +1,17 @@
 ---
-- name: Update package lists
-  ansible.builtin.apt:
-    update_cache: yes
-
-- name: Add Docker repository
-  ansible.builtin.apt_repository:
-    repo: "deb https://download.docker.com/linux/ubuntu focal stable"
-    state: present
-
-- name: Add Docker key
+- name: Add Docker GPG key
   ansible.builtin.apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
-    state: present
 
-- name: Install pip
-  ansible.builtin.apt:
-    name: python3-pip
-    state: present
+- name: Add Docker Repository
+  ansible.builtin.apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu focal stable
 
 - name: Install Docker
   ansible.builtin.apt:
     name: docker-ce
-    state: present
+    state: latest
+    update_cache: true
 
 - name: Install PIP
   ansible.builtin.apt:

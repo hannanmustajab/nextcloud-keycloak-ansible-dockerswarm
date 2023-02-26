@@ -21,14 +21,14 @@ run-ansible: ansible-prepare
 		--ssh-common-args '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' \
 		-verbose\
 		$(ANSIBLE_ARGS) \
-		$(ANSIBLE_PLAYBOOK) --vault-password-file=vault.txt 
+		$(ANSIBLE_PLAYBOOK) --vault-password-file=vault.txt
 
 .PHONY: run-ansible
 run-ansible-lint: update-venv
 	. $(VENV_ACTIVATE_PATH) && ansible-lint \
 		--format rich \
 		--profile production \
-		$(ANSIBLE_PLAYBOOK) --vault-password-file=vault.txt
+		$(ANSIBLE_PLAYBOOK) 
 
 .PHONY: add-role
 add-role:
