@@ -1,0 +1,32 @@
+version: '3'
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:20.0.1
+    deploy:
+      mode: replicated
+      replicas: 1
+    restart: on-failure
+    network_mode: host
+    ports:
+      - '8080:8080'
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_HOSTNAME=192.168.50.10
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://192.168.50.10/keycloak
+      - KC_DB_PASSWORD=keycloak
+      - KC_DB_USERNAME=keycloak
+    command: start-dev
+#     networks:
+#       - mynetwork
+
+
+# networks:
+#   mynetwork:
+#     external:
+#       name: swarm_net
+
+# networks:
+#   appnet:
+#     driver: overlay

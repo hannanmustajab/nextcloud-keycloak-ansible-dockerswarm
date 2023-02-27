@@ -1,34 +1,45 @@
----
+# ---
 
 # - name: Pull the Keycloak image
 #   docker_image:
 #     name: quay.io/keycloak/keycloak:20.0.1
 #     source: pull
 
-- name: Stop keycloak service
-  docker_container:
-    name: keycloak
-    image: quay.io/keycloak/keycloak:20.0.1
-    state: absent
-  # when: inventory_hostname is in groups['swarm-managers']
+# # - name: Stop keycloak service
+# #   docker_container:
+# #     name: keycloak
+# #     image: quay.io/keycloak/keycloak:20.0.1
+# #     state: absent
+# #   # when: inventory_hostname is in groups['swarm-managers']
 
 
-- name: Create a keycloak service
-  docker_container:
-    name: keycloak
-    image: quay.io/keycloak/keycloak:20.0.1
-    state: present
-    ports:
-     - "8080:8080"
-    env:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-    command: start-dev
-  # when: inventory_hostname is in groups['swarm-managers']
-
-
-# - name: Deploy the service
-#   docker_swarm_service:
-#     name: postgres
+# - name: Create a keycloak service
+#   docker_container:
+#     name: keycloak
+#     image: quay.io/keycloak/keycloak:20.0.1
 #     state: present
+#     ports:
+#      - "8080:8080"
+#     env:
+#       KEYCLOAK_ADMIN: admin
+#       KEYCLOAK_ADMIN_PASSWORD: admin
+#       KC_HOSTNAME: localhost
+#       KC_DB : keycloak
+#       KC_DB_PASSWORD: keycloak
+#       KC_DB_USERNAME: keycloak
+#     # command: start-dev
 #   when: inventory_hostname is in groups['swarm-managers']
+
+---
+- name: Copy the  stack file
+  ansible.builtin.template:
+    src: keycloak_stack.yml
+    dest: /opt/keycloak_stack.yml
+
+- name: Deploy stack from a compose file
+  community.docker.docker_stack:
+    state: present
+    name: keycloak
+    compose:
+    - /opt/keycloak_stack.yml
+    with_registry_auth: true

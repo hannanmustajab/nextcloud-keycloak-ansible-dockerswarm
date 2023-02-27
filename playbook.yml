@@ -40,3 +40,10 @@
   become: true
   roles:
     - role : roles/database
+
+
+- name: keycloak Services
+  hosts: all
+  become: true
+  roles:
+    - role : roles/keycloak
