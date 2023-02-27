@@ -1,1 +1,23 @@
 ---
+- name: Copy the database stack file
+  ansible.builtin.template:
+    src: postgres.yml
+    dest: /opt/postgres.yml
+
+- name: Copy the sql file for keycloak stack file
+  ansible.builtin.template:
+    src: keycloak.sql
+    dest: /opt/keycloak.sql
+
+- name: Copy the sql file for nextcloud  file
+  ansible.builtin.template:
+    src: nextcloud.sql
+    dest: /opt/nextcloud.sql
+
+- name: Deploy gitea stack from a compose file
+  community.docker.docker_stack:
+    state: present
+    name: postgres
+    compose:
+    - /opt/postgres.yml
+    with_registry_auth: true

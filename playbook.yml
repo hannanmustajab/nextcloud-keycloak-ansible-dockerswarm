@@ -1,26 +1,42 @@
 ---
-- name: NFS server part
-  hosts: nfs-servers
-  become: true
-  roles:
-  - nfs/nfs-server
-
-- name: NFS client part
-  hosts: nfs-clients
-  become: true
-  roles:
-  - nfs/nfs-client
-
 - name: Common part of the playbook for both nodes
   hosts: all
   become: true
   roles:
+  - nfs
   - docker
   - docker_swarm
-  #- registry
-  #- database
-  #- keycloak
+  # - registry
+  # - database
+  # - keycloak
   #- nextcloud
   #- monitoring
   #- logging
   #- dashboard
+
+- name: Setup local docker registry for custom images 
+  hosts: node1
+  become: true
+  roles:
+    - role: roles/registry
+
+- name: Login in local docker registry with "VCC" user
+  hosts: all
+  become: true
+  tasks:
+  - name: login
+    community.docker.docker_login:
+      username: vcc
+      password: vcc
+      registry_url: http://127.0.0.1:5000
+    register: docker_registry_login
+    # until: docker_registry_login is success
+    # retries: 300
+    # delay: 1
+
+
+- name: Database Services
+  hosts: all
+  become: true
+  roles:
+    - role : roles/database

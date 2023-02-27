@@ -1,1 +1,33 @@
 ---
+- name: Copy the registry stack file
+  ansible.builtin.template:
+    src: registry.yml
+    dest: /opt/registry.yml
+
+- name: Copy the registry config file
+  ansible.builtin.template:
+    src: registry.config.yml
+    dest: /data/registry.config.yml
+
+- name: Install apache2-utils for htpasswd
+  ansible.builtin.apt:
+    name: apache2-utils
+  
+- name: Create registry password file
+  shell:
+  args:
+    cmd: >-
+      htpasswd -nbB vcc vcc > /data/registry.htpasswd
+
+- name: Create /data/docker-registry
+  ansible.builtin.file:
+    path: /data/docker-registry
+    state: directory
+
+- name: Deploy registry stack from a compose file
+  community.docker.docker_stack:
+    state: present
+    name: registry
+    compose:
+    - /opt/registry.yml
+

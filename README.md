@@ -2,7 +2,7 @@
 
 Exam project
 
-Ali Haider(4811831), Giacomo Pedemonte(4861715), Abdul Hannan Mustajab(5156186)
+...authors, ...
 
 ## Facilities available
 

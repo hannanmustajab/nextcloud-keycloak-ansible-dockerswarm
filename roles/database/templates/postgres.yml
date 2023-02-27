@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15.1
+    restart: always
+    environment:
+      - POSTGRES_USER=vcc-test
+      - POSTGRES_PASSWORD=vcc-test
+    ports:
+      - '5432:5432'
+    volumes: 
+      - db:/data/postgresql
+      - /opt/keycloak.sql:/docker-entrypoint-initdb.d/keycloak.sql
+
+  # keycloak:
+  #   container_name: keycloak-db
+  #   image: postgres:15.1
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - 3000:3000
+  #   environment:
+  #     DB_HOST: db
+  #     DB_PORT: 5432
+  #     DB_USER: keycloak
+  #     DB_PASSWORD: keycloak
+  #     DB_NAME: keycloak
+  #   links:
+  #     - db
+  #   volumes:
+  #     - './:/src'
+   
+volumes:
+  db:
+    driver: local
