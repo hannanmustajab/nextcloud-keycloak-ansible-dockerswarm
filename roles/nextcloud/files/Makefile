@@ -18,6 +18,6 @@ run: build
 		-e SAMPLE_USER_PASSWORD=itsdifficult \
 		-e OIDC_CLIENT_ID=nextcloud \
 		-e OIDC_PROVIDER_URL=http://192.168.50.10:8080/realms/vcc \
-		-e OIDC_LOGOUT_URL=http://192.168.50.10/apps/oidc_login/oidc \
+		-e OIDC_LOGOUT_URL=http://localhost/apps/oidc_login/oidc \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		nextcloud-keycloak-integrator

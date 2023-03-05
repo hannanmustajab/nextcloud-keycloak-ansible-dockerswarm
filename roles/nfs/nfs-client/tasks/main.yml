@@ -7,6 +7,8 @@
   ansible.builtin.file:
     path: "{{ nfs_share_path }}"
     state: directory
+  debug:
+    msg: "NFS SHARE PATH:::: {{ nfs_share_path }}"
 
 - name: Mount NFS
   ansible.posix.mount:
@@ -15,3 +17,5 @@
     opts: rw,sync
     fstype: nfs
     state: mounted
+  debug:
+    msg: "NFS SHARE MOUNT PATH:::: {{ nfs_share_path }}"

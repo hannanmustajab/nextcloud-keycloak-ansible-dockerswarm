@@ -3,4 +3,4 @@
   ansible.builtin.systemd:
     name: nfs-kernel-server
     state: restarted
-  #when: inventory_hostname is in groups['nfs-servers']
+  when: inventory_hostname is in groups['nfs-servers']

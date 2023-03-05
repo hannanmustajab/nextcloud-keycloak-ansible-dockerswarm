@@ -9,3 +9,10 @@ Exam project
 - `make run-ansible` runs the Ansible playbook
 - `make run-ansible-lint` runs the Ansible playbook linter
 - An example inside of `examples` of the integration between Nextcloud and Keycloak
+
+
+
+### problems:
+
+we have to hardcode database server ip
+we have to forward port.

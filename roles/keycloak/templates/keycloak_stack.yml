@@ -1,10 +1,21 @@
 version: '3'
+
+
 services:
   keycloak:
+    container_name: keycloak
     image: quay.io/keycloak/keycloak:20.0.1
     deploy:
       mode: replicated
       replicas: 1
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.keycloak.rule=Host(`auth.localdomain`)"
+        - "traefik.http.routers.keycloak.entrypoints=web-secure"
+        - "traefik.http.routers.keycloak.tls.certresolver=myresolver"
+        - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+
+
     restart: on-failure
     network_mode: host
     ports:
@@ -18,15 +29,13 @@ services:
       - KC_DB_PASSWORD=keycloak
       - KC_DB_USERNAME=keycloak
     command: start-dev
-#     networks:
-#       - mynetwork
+    # networks:
+    #   - my_overlay_network
 
-
+    depends_on:
+      - db
+ 
 # networks:
-#   mynetwork:
-#     external:
-#       name: swarm_net
-
-# networks:
-#   appnet:
+#   my_overlay_network:
 #     driver: overlay
+#     name: my-overlay-network

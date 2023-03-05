@@ -1,1 +1,52 @@
 ---
+- name: Copy the  stack file
+  ansible.builtin.template:
+    src: nextcloud_stack.yml
+    dest: /opt/nextcloud_stack.yml
+
+- name: Delete /data/nextcloud directory to store nextcloud data.
+  ansible.builtin.file:
+    path: /data/nextcloud
+    state: absent
+
+- name: Create /data/nextcloud directory to store nextcloud data.
+  ansible.builtin.file:
+    path: /data/nextcloud
+    state: directory
+
+
+# - name: Copy Nextcloud files to target node
+#   copy:
+#     src: "{{ item }}"
+#     dest: "/opt/nextcloud_integrator/"
+#     mode: 0644
+#   with_items:
+#     - files/Makefile
+#     - files/container/Dockerfile
+#     - files/container/entrypoint.sh
+
+# - name: Build and run Nextcloud container
+#   command: "make -C /opt/nextcloud_integrator build"
+  
+
+- name: Build and push container
+  community.docker.docker_image:
+    build:
+      path: /opt/nextcloud_integrator/container
+    name: 127.0.0.1:5000/nextcloud-keycloak-integrator
+    tag: latest
+    push: true
+    source: build
+
+
+- name: Deploy stack from a compose file
+  community.docker.docker_stack:
+    state: present
+    name: nextcloud
+    compose:
+    - /opt/nextcloud_stack.yml
+    with_registry_auth: true
+
+
+
+

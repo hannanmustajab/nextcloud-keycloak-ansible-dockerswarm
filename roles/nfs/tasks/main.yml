@@ -25,12 +25,21 @@
     state: restarted
   when: inventory_hostname is in groups['nfs-servers']
 
+
 - name: Install NFS client on node2
   ansible.builtin.apt:
     name: nfs-common
     state: present
   when: inventory_hostname is in groups['nfs-clients']
 
+
+
+- name: "Create NFS mount directory {{ nfs_share_path }}"
+  ansible.builtin.file:
+    path: "{{ nfs_share_path }}"
+    state: directory
+
+  
 - name: Create mount point on node2
   ansible.builtin.file:
     path: /mnt/data
@@ -50,4 +59,15 @@
     path: /etc/fstab
     line: "{{ ansible_host_node1 }}:/data /mnt/data nfs defaults 0 0"
     state: present
+  when: inventory_hostname is in groups['nfs-clients']
+
+
+
+- name: Mount NFS
+  ansible.posix.mount:
+    src: "{{ hostvars[ groups['nfs-servers'] | first ]['ansible_storage'] }}:{{ nfs_share_path }}"
+    path: "{{ nfs_share_path }}"
+    opts: rw,sync
+    fstype: nfs
+    state: mounted
   when: inventory_hostname is in groups['nfs-clients']

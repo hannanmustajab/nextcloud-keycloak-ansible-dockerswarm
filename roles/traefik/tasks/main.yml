@@ -1,0 +1,22 @@
+---
+- name: Copy the traefik stack file
+  ansible.builtin.template:
+    src: traefik.yml
+    dest: /opt/traefik.yml
+
+- name: Create /data/traefik directory to store traefik data.
+  ansible.builtin.file:
+    path: /data/traefik
+    state: directory
+
+- name: Deploy stack from a compose file
+  community.docker.docker_stack:
+    state: present
+    name: traefik
+    compose:
+    - /opt/traefik.yml
+    with_registry_auth: true
+
+
+
+

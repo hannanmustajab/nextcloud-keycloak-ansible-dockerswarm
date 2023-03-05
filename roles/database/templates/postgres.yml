@@ -4,6 +4,7 @@ services:
   db:
     image: postgres:15.1
     restart: always
+    network_mode: host
     environment:
       - POSTGRES_USER=vcc-test
       - POSTGRES_PASSWORD=vcc-test
@@ -13,8 +14,7 @@ services:
       - "/data/postgresql:/var/lib/postgresql/data"
       - "/opt/keycloak.sql:/docker-entrypoint-initdb.d/keycloak.sql"
       - "/opt/nextcloud.sql:/docker-entrypoint-initdb.d/nextcloud.sql"
-    # networks:
-    #   - swarm_net
+  
 
 volumes:
   db:

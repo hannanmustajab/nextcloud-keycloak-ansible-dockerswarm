@@ -47,3 +47,17 @@
   become: true
   roles:
     - role : roles/keycloak
+
+
+- name: nextcloud Services
+  hosts: all
+  become: true
+  roles:
+    - role : roles/nextcloud
+
+
+- name: traefik Services
+  hosts: all
+  become: true
+  roles:
+    - role : roles/traefik

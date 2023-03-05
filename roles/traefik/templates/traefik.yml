@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  traefik:
+    image: traefik:v2.9.6
+    command:
+        # enable Web UI
+      - --api.insecure=true
+      # set provider (Docker Swarm)
+      - --providers.docker
+      - --providers.docker.swarmMode=true
+      # traefik http entrypoint port
+      - --entrypoints.web.address=:8082
+      - --entrypoints.websecure.address=:443
+      # redirect
+      - --entrypoints.web.http.redirections.entryPoint.to=websecure
+      # add x-forwaded-for
+      - --entrypoints.web.forwardedHeaders.insecure=true
+      # manually enable services exposed by traefik
+      - --providers.docker.exposedByDefault=false
+      # dynamic configuration files folder
+      - --providers.file.directory=/etc/traefik/dynamic
+      - --log.level=DEBUG
+      # log
+      - "--accesslog=true"
+      - "--accesslog.filePath=/logs/access.log"
+    ports:
+      #  Web UI (enabled by --api.insecure=true)
+      - "8082:8082"
+    volumes:
+      - /data/traefik:/etc/traefik/dynamic
+      - /data/:/logs
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.nextcloud.rule=Host(`cloud.localdomain`)"
+    #   - "traefik.http.routers.nextcloud.entrypoints=websecure"
+    #   - "traefik.http.routers.nextcloud.tls=true"
+    #   - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
+    #   - "traefik.http.routers.keycloak.rule=Host(`auth.localdomain`)"
+    #   - "traefik.http.routers.keycloak.entrypoints=websecure"
+    #   - "traefik.http.routers.keycloak.tls=true"
+    #   - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+    #   - "traefik.http.routers.grafana.rule=Host(`mon.localdomain`)"
+    #   - "traefik.http.routers.grafana.entrypoints=websecure"
+    #   - "traefik.http.routers.grafana.tls=true"
+    #   - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+    #   - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+# networks:
+#   my_overlay_network:
+#     driver: overlay
+#     name: my-overlay-network
