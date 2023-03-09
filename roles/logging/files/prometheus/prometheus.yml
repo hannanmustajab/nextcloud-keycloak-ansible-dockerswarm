@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+rule_files:
+
+scrape_configs:
+  - job_name: fluent-bit
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['backend_fluent-bit:2020']

@@ -3,39 +3,44 @@ version: '3'
 
 services:
   keycloak:
-    container_name: keycloak
     image: quay.io/keycloak/keycloak:20.0.1
     deploy:
       mode: replicated
       replicas: 1
       labels:
         - "traefik.enable=true"
+        - "traefik.docker.network=traefik_public"
+        - "traefik.http.routers.keycloak.entrypoints=websecure"
         - "traefik.http.routers.keycloak.rule=Host(`auth.localdomain`)"
-        - "traefik.http.routers.keycloak.entrypoints=web-secure"
-        - "traefik.http.routers.keycloak.tls.certresolver=myresolver"
-        - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
-
-
+        - "traefik.http.routers.keycloak.service=keycloak_service"
+        - "traefik.http.routers.keycloak.tls=true"
+        - "traefik.http.routers.keycloak.middlewares=keycloak_proto"
+        - "traefik.http.services.keycloak_service.loadbalancer.server.port=8080"
+        - "traefik.http.middlewares.keycloak_proto.headers.customrequestheaders.X-Forwarded-Proto=https"
     restart: on-failure
-    network_mode: host
-    ports:
-      - '8080:8080'
     environment:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
-      - KC_HOSTNAME=192.168.50.10
       - KC_DB=postgres
-      - KC_DB_URL=jdbc:postgresql://192.168.50.10/keycloak
+      - KC_DB_URL=jdbc:postgresql://db/keycloak
       - KC_DB_PASSWORD=keycloak
       - KC_DB_USERNAME=keycloak
-    command: start-dev
-    # networks:
-    #   - my_overlay_network
-
+    command: start-dev --proxy=edge
+    networks:
+       overlay_swarm_net:
+          ipv4_address: 192.168.50.5
+       traefik_public:
     depends_on:
       - db
- 
-# networks:
-#   my_overlay_network:
-#     driver: overlay
-#     name: my-overlay-network
+    
+
+
+networks:
+  overlay_swarm_net:
+    name: overlay_swarm_net
+    external: true
+
+  traefik_public:
+    driver: overlay
+    name: traefik_public
+    

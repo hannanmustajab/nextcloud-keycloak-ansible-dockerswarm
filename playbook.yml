@@ -11,7 +11,7 @@
   # - keycloak
   #- nextcloud
   #- monitoring
-  #- logging
+  # - logging
   #- dashboard
 
 - name: Setup local docker registry for custom images 
@@ -32,32 +32,39 @@
     register: docker_registry_login
     # until: docker_registry_login is success
     # retries: 300
-    # delay: 1
+    delay: 1
 
 
-- name: Database Services
+# - name: Database Services
+#   hosts: all
+#   become: true
+#   roles:
+#     - role : roles/database
+
+
+# - name: keycloak Services
+#   hosts: all
+#   become: true
+#   roles:
+#     - role : roles/keycloak
+
+
+# - name: nextcloud Services
+#   hosts: all
+#   become: true
+#   roles:
+#     - role : roles/nextcloud
+
+
+# - name: traefik Services
+#   hosts: all
+#   become: true
+#   roles:
+#     - role : roles/traefik
+
+
+- name: Logging services part of the playbook for both nodes
   hosts: all
   become: true
   roles:
-    - role : roles/database
-
-
-- name: keycloak Services
-  hosts: all
-  become: true
-  roles:
-    - role : roles/keycloak
-
-
-- name: nextcloud Services
-  hosts: all
-  become: true
-  roles:
-    - role : roles/nextcloud
-
-
-- name: traefik Services
-  hosts: all
-  become: true
-  roles:
-    - role : roles/traefik
+    - logging

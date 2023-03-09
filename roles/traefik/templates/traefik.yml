@@ -1,16 +1,39 @@
-version: "3.8"
+version: '3'
 
 services:
-  traefik:
-    image: traefik:v2.9.6
-    command:
-        # enable Web UI
+  reverse-proxy-https-init:
+      image: 127.0.0.1:5000/alpine/openssl:3.14
+      build: 
+        context: /opt/sslgenerator/ssl-init
+        dockerfile: Dockerfile
+      environment: 
+        SSL_CN: "*.local"
+        SSL_O: "VCC"
+        SSL_C: "IT"
+        SSL_DAYS: 3650
+      volumes:
+        - /data/certs:/etc/ssl/traefik
+        - /data/traefik:/etc/traefik/dynamic
+      deploy:
+        restart_policy:
+          condition: none
+        mode: replicated
+        replicas: 1
+
+
+
+  reverse-proxy:
+    # The official v2 Traefik docker image
+    image: traefik:v2.9
+    # Enables the web UI and tells Traefik to listen to docker
+    command: 
+         # enable Web UI
       - --api.insecure=true
       # set provider (Docker Swarm)
       - --providers.docker
       - --providers.docker.swarmMode=true
       # traefik http entrypoint port
-      - --entrypoints.web.address=:8082
+      - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
       # redirect
       - --entrypoints.web.http.redirections.entryPoint.to=websecure
@@ -24,33 +47,37 @@ services:
       # log
       - "--accesslog=true"
       - "--accesslog.filePath=/logs/access.log"
+
     ports:
-      #  Web UI (enabled by --api.insecure=true)
-      - "8082:8082"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8081:8080"
+      - 443:443
+      - 80:80
     volumes:
-      - /data/traefik:/etc/traefik/dynamic
+      # So that Traefik can listen to the Docker even
       - /data/:/logs
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /data/certs:/etc/ssl/traefik
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /data/traefik:/etc/traefik/dynamic
+
+
+    networks:
+      - overlay_swarm_net
+      - traefik_public
+   
     deploy:
+      mode: replicated
+      replicas: 1
       placement:
         constraints:
           - node.role == manager
-    # labels:
-    #   - "traefik.enable=true"
-    #   - "traefik.http.routers.nextcloud.rule=Host(`cloud.localdomain`)"
-    #   - "traefik.http.routers.nextcloud.entrypoints=websecure"
-    #   - "traefik.http.routers.nextcloud.tls=true"
-    #   - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
-    #   - "traefik.http.routers.keycloak.rule=Host(`auth.localdomain`)"
-    #   - "traefik.http.routers.keycloak.entrypoints=websecure"
-    #   - "traefik.http.routers.keycloak.tls=true"
-    #   - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
-    #   - "traefik.http.routers.grafana.rule=Host(`mon.localdomain`)"
-    #   - "traefik.http.routers.grafana.entrypoints=websecure"
-    #   - "traefik.http.routers.grafana.tls=true"
-    #   - "traefik.http.services.grafana.loadbalancer.server.port=3000"
-    #   - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-# networks:
-#   my_overlay_network:
-#     driver: overlay
-#     name: my-overlay-network
+
+
+
+networks:
+  overlay_swarm_net:
+    name: overlay_swarm_net
+    external: true
+  
+  traefik_public:
+    external: true

@@ -1,0 +1,23 @@
+version: '3.8'
+
+networks:
+  overlay_swarm_net:
+    name: overlay_swarm_net
+    external: true
+  
+  traefik_public:
+    external: true
+
+services:
+  loki:
+      image: grafana/loki:2.0.0
+      networks:
+      - overlay_swarm_net
+      - traefik_public
+      volumes:
+      - /data/loki:/loki
+      configs:
+      - source: loki-conf
+        target: /etc/loki/local-config.yaml
+      ports:
+      - 3100:3100

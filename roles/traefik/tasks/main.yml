@@ -3,11 +3,43 @@
   ansible.builtin.template:
     src: traefik.yml
     dest: /opt/traefik.yml
+  
+- name: Copy the acme.json file 
+  ansible.builtin.template:
+    src: acme.json
+    dest: /opt/acme.json
+    
+- name: Create /data/certs directory to store certificates.
+  ansible.builtin.file:
+    path: /data/certs
+    state: directory
 
 - name: Create /data/traefik directory to store traefik data.
   ansible.builtin.file:
     path: /data/traefik
     state: directory
+
+
+# - name: Copy ssl generator files to target node
+#   copy:
+#     src: "{{ item }}"
+#     dest: "/opt/sslgenerator/"
+#     mode: 0644
+#   with_items:
+#     - files/ssl-init
+#     - files/Dockerfile
+#     - files/entrypoint.sh
+
+
+# - name: Build and push container
+#   community.docker.docker_image:
+#     build:
+#       path: /opt/sslgenerator/ssl-init
+#     name: 127.0.0.1:5000/alpine/openssl:3.14
+#     tag: latest
+#     push: true
+#     source: build
+
 
 - name: Deploy stack from a compose file
   community.docker.docker_stack:

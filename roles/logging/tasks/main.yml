@@ -1,1 +1,36 @@
 ---
+- name: Copy the prometheus directory
+  ansible.builtin.copy:
+    src: prometheus/
+    dest: /data/prometheus
+
+- name: Copy the grafana directory
+  ansible.builtin.copy:
+    src: grafana/
+    dest: /data/grafana
+
+- name: Copy the promtail directory
+  ansible.builtin.copy:
+    src: promtail/
+    dest: /data/promtail/
+
+- name: Copy the fluentbit configuration  file
+  ansible.builtin.template:
+    src: fluent-bit.conf
+    dest: /opt/fluent-bit.conf
+
+
+- name: Copy the backend stack file
+  ansible.builtin.template:
+    src: logging.yml
+    dest: /opt/logging.yml
+
+- name: Deploy backend stack from a compose file
+  community.docker.docker_stack:
+    state: present
+    name: backend
+    compose:
+    - /opt/logging.yml
+    with_registry_auth: true
+
+

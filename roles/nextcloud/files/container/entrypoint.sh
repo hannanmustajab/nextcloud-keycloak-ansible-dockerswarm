@@ -4,7 +4,6 @@
 #
 # Nextcloud
 runOCC() {
-    echo 'Entering run OCC function'
     CONTAINER_ID=$(docker container ls --filter label=com.docker.swarm.service.name=nextcloud_nextcloud -q)
     docker exec -i -u www-data "$CONTAINER_ID" php occ "$@"
 }
@@ -21,7 +20,7 @@ runKeycloak() {
 
 
 keycloakAdminToken() {
-    runKeycloak curl -X POST "http://192.168.50.10:8080/realms/master/protocol/openid-connect/token" \
+    runKeycloak curl -X POST "http://localhost:8080/realms/master/protocol/openid-connect/token" \
         --data-urlencode "username=${KEYCLOAK_ADMIN_USER}" \
         --data-urlencode "password=${KEYCLOAK_ADMIN_PASSWORD}" \
         --data-urlencode 'grant_type=password' \
@@ -54,7 +53,7 @@ done
 echo 'Keycloak container found'
 
 # Wait until Keycloak is alive
-until runKeycloak curl -sSf http://192.168.50.10:8080; do
+until runKeycloak curl -sSf http://localhost:8080; do
     sleep 1
 done
 echo 'Keycloak alive 123'
@@ -62,31 +61,31 @@ echo 'Keycloak alive 123'
 
 echo 'creating realm'
 # Create 'vcc' keycloak realm
-if [ "$(keycloakCurl -o /dev/null -sw '%{http_code}' http://192.168.50.10:8080/admin/realms/vcc)" = "404" ]; then
+if [ "$(keycloakCurl -o /dev/null -sw '%{http_code}' http://localhost:8080/admin/realms/vcc)" = "404" ]; then
     keycloakCurl \
         -X POST \
         -H 'Content-Type: application/json' \
         --data '{"displayName":"Virtualization and Cloud Computing","id":"vcc","realm":"vcc","enabled":true}' \
-        http://192.168.50.10:8080/admin/realms
+        http://localhost:8080/admin/realms
 fi
 echo 'creating realm end'
 
 echo 'creating client'
 # Create 'nextcloud' keycloak client
-if [ "$(keycloakCurl -o /dev/null -sw '%{http_code}' http://192.168.50.10:8080/admin/realms/vcc/clients/nextcloud)" = "404" ]; then
+if [ "$(keycloakCurl -o /dev/null -sw '%{http_code}' http://localhost:8080/admin/realms/vcc/clients/nextcloud)" = "404" ]; then
     # !!! THIS REDIRECT URI IS INSECURE !!!
     keycloakCurl \
         -X POST \
         -H 'Content-Type: application/json; charset=UTF-8' \
         --data "{\"id\":\"nextcloud\",\"clientId\":\"nextcloud\",\"description\":\"Integration with Nextcloud\",\"publicClient\":false,\"redirectUris\":[\"*\"],\"enabled\":true}" \
-        http://192.168.50.10:8080/admin/realms/vcc/clients
+        http://localhost:8080/admin/realms/vcc/clients
 fi
-OIDC_CLIENT_SECRET=$(keycloakCurl http://192.168.50.10:8080/admin/realms/vcc/clients/nextcloud | jq -r '.secret')
+OIDC_CLIENT_SECRET=$(keycloakCurl http://localhost:8080/admin/realms/vcc/clients/nextcloud | jq -r '.secret')
 
 echo 'creating user'
 # Create a user inside of keycloak
 findExaminer() {
-    keycloakCurl 'http://192.168.50.10:8080/admin/realms/vcc/users?exact=true&lastName=Examiner'
+    keycloakCurl 'http://localhost:8080/admin/realms/vcc/users?exact=true&lastName=Examiner'
 }
 findExaminerId() {
     findExaminer | jq -r '.[0].id'
@@ -96,13 +95,13 @@ if [ "$(findExaminer | jq -r '. | length')" = "0" ]; then
         -X POST \
         -H 'Content-Type: application/json; charset=UTF-8' \
         --data "{\"id\":\"examiner\",\"username\":\"vcc-examiner\",\"firstName\":\"VCC\",\"lastName\":\"Examiner\",\"email\":\"vcc.examiner@bots.dibris.unige.it\",\"emailVerified\":true,\"enabled\":true}" \
-        http://192.168.50.10:8080/admin/realms/vcc/users
+        http://localhost:8080/admin/realms/vcc/users
     user_id=$(findExaminerId)
     keycloakCurl \
         -X PUT \
         -H 'Content-Type: application/json; charset=UTF-8' \
         --data "{\"type\":\"rawPassword\",\"value\":\"${SAMPLE_USER_PASSWORD}\"}" \
-        "http://192.168.50.10:8080/admin/realms/vcc/users/${user_id}/reset-password"
+        "http://localhost:8080/admin/realms/vcc/users/${user_id}/reset-password"
 fi
 
 # Wait until Nextcloud install is complete

@@ -1,0 +1,83 @@
+version: '3'
+
+configs:
+  fluent-bit-conf:
+    file: /opt/fluent-bit.conf
+
+
+networks:
+  overlay_swarm_net:
+    name: overlay_swarm_net
+    external: true
+  
+  traefik_public:
+    external: true 
+
+
+services:
+  fluent-bit:
+    image: cr.fluentbit.io/fluent/fluent-bit:2.0.6
+    deploy:
+      mode: global
+    environment:
+      - LOKI_URL=http://loki:3100/loki/api/v1/push
+    configs:
+      - source: fluent-bit-conf
+        target: /fluent-bit/etc/fluent-bit.conf
+    networks:
+      - overlay_swarm_net
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers
+      # - /opt/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+
+  loki:
+    image: grafana/loki:2.5.0
+    deploy:
+      mode: replicated
+      replicas: 1
+    ports:
+        - "3100:3100"
+    networks:
+      - overlay_swarm_net
+    command: -config.file=/etc/loki/local-config.yaml
+
+
+  prometheus:
+    image: prom/prometheus:v2.40.6
+    deploy:
+      mode: replicated
+      replicas: 1
+    ports:
+        - "9090:9090"
+    networks:
+      - overlay_swarm_net
+    volumes:
+        - /data/prometheus:/app.cfg
+        # - /data/prometheus:/prometheus
+    command: >-
+        --config.file=/app.cfg/prometheus.yml
+        --storage.tsdb.path=/prometheus
+        --storage.tsdb.retention.time=7d
+        --web.console.libraries=/usr/share/prometheus/console_libraries
+        --web.console.templates=/usr/share/prometheus/consoles
+
+  node-exporter:
+    image: prom/node-exporter:v1.3.1
+    deploy:
+      mode: replicated
+      replicas: 2
+    restart: always
+    networks:
+      - overlay_swarm_net
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/rootfs'
+      - '--collector.filesystem.ignored-mount-points="^(/rootfs|/host|)/(sys|proc|dev|host|etc)($$|/)"'
+      - '--collector.filesystem.ignored-fs-types="^(sys|proc|auto|cgroup|devpts|ns|au|fuse\.lxc|mqueue)(fs|)$$"'

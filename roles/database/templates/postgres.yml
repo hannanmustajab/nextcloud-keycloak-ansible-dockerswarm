@@ -4,7 +4,6 @@ services:
   db:
     image: postgres:15.1
     restart: always
-    network_mode: host
     environment:
       - POSTGRES_USER=vcc-test
       - POSTGRES_PASSWORD=vcc-test
@@ -14,9 +13,21 @@ services:
       - "/data/postgresql:/var/lib/postgresql/data"
       - "/opt/keycloak.sql:/docker-entrypoint-initdb.d/keycloak.sql"
       - "/opt/nextcloud.sql:/docker-entrypoint-initdb.d/nextcloud.sql"
+    networks:
+    - overlay_swarm_net
   
 
 volumes:
   db:
     driver: local
 
+
+networks:
+  overlay_swarm_net:
+    name: overlay_swarm_net
+    driver: overlay
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.50.0/24"
+   
