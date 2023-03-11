@@ -1,0 +1,20 @@
+---
+- name: Replace /etc/apt/sources.list
+  ansible.builtin.template:
+    src: sources.list
+    dest: /etc/apt/sources.list
+
+- name: Perform an apt update
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: no
+
+- name: Install ansible prerequisites
+  ansible.builtin.apt:
+    name:
+    - acl # Ansible fails with `Failed to set permissions on the temporary files Ansible needs`
+    - python3-docker
+    - python3-distutils
+    - python3-ldap
+    - python3-jsondiff
+    - python3-pip
