@@ -14,10 +14,24 @@
     src: promtail/
     dest: /data/promtail/
 
+- name: Change ownership of prometheus to nobody for persisting data.
+  file:
+    path: /data/prometheus
+    owner: nobody
+    group: nogroup
+    recurse: yes
+    state: directory
+
+    
 - name: Copy the fluentbit configuration  file
   ansible.builtin.template:
     src: fluent-bit.conf
     dest: /opt/fluent-bit.conf
+
+- name: Copy the loki configuration  file
+  ansible.builtin.copy:
+    src: loki/loki.conf
+    dest: /opt/loki.conf
 
 
 - name: Copy the backend stack file
