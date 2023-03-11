@@ -1,9 +1,9 @@
 ---
-- name: Install/Update prerequisites. 
-  hosts: all
-  become: true
-  roles:
-    - role: roles/update
+# - name: Install/Update prerequisites. 
+#   hosts: all
+#   become: true
+#   roles:
+#     - role: roles/update
 
 - name: Common part of the playbook for both nodes
   hosts: all
@@ -41,32 +41,32 @@
     delay: 1
 
 
-# - name: Database Services
-#   hosts: all
-#   become: true
-#   roles:
-#     - role : roles/database
+- name: Database Services
+  hosts: node1
+  become: true
+  roles:
+    - role : roles/database
 
 
-# - name: keycloak Services
-#   hosts: node1
-#   become: true
-#   roles:
-#     - role : roles/keycloak
+- name: keycloak Services
+  hosts: node1
+  become: true
+  roles:
+    - role : roles/keycloak
 
 
-# - name: nextcloud Services
-#   hosts: node1
-#   become: true
-#   roles:
-#     - role : roles/nextcloud
+- name: nextcloud Services
+  hosts: node1
+  become: true
+  roles:
+    - role : roles/nextcloud
 
 
-# - name: traefik Services
-#   hosts: node1
-#   become: true
-#   roles:
-#     - role : roles/traefik
+- name: traefik Services
+  hosts: node1
+  become: true
+  roles:
+    - role : roles/traefik
 
 
 - name: Logging services part of the playbook for both nodes
