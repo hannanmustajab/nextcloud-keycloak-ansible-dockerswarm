@@ -1,4 +1,4 @@
-version: '3'
+version: "3.8"
 
 configs:
   fluent-bit-conf:
@@ -13,10 +13,9 @@ networks:
   overlay_swarm_net:
     name: overlay_swarm_net
     external: true
-  
-  traefik_public:
-    external: true 
 
+  traefik_public:
+    external: true
 
 services:
   loki:
@@ -24,8 +23,9 @@ services:
     ports:
       - 3100:3100
     configs:
-     - source: loki_config
-       target: /etc/loki/loki-config.yaml
+      - source: loki_config
+        target: /etc/loki/loki-config.yaml
+        #  chmod 777 was needed to persist data for loki
     volumes:
       - /data/loki:/loki
     networks:
@@ -33,13 +33,14 @@ services:
     deploy:
       placement:
         constraints: [node.hostname == node1]
-    
+
   fluent-bit:
     image: cr.fluentbit.io/fluent/fluent-bit:2.0.6
     deploy:
       mode: global
     environment:
       - LOKI_URL=http://loki:3100/loki/api/v1/push
+      # -HOSTNAME=$(hostname)
     configs:
       - source: fluent-bit-conf
         target: /fluent-bit/etc/fluent-bit.conf
@@ -52,46 +53,29 @@ services:
     depends_on:
       - loki
 
-  cadvisor:
-    image: google/cadvisor:v0.33.0
-    ports:
-      - 9092:9092    
-    deploy:
-      mode: global
-    networks:
-      - overlay_swarm_net
-    volumes:
-        - /:/rootfs:ro
-        - /var/run:/var/run:ro
-        - /sys:/sys:ro
-        - /var/lib/docker/:/var/lib/docker:ro
-        - /dev/disk/:/dev/disk:ro
-
-
   prometheus:
     image: prom/prometheus:v2.40.6
     deploy:
       mode: replicated
       replicas: 1
     ports:
-        - "9090:9090"
+      - "9090:9090"
     networks:
       - overlay_swarm_net
     volumes:
-        - /data/prometheus:/app.cfg
-        - /data/prometheus:/prometheus
+      - /data/prometheus:/app.cfg
+      - /data/prometheus:/prometheus
     command: >-
-        --config.file=/app.cfg/prometheus.yml
-        --storage.tsdb.path=/prometheus
-        --storage.tsdb.retention.time=7d
-        --web.console.libraries=/usr/share/prometheus/console_libraries
-        --web.console.templates=/usr/share/prometheus/consoles
+      --config.file=/app.cfg/prometheus.yml
+      --storage.tsdb.path=/prometheus
+      --storage.tsdb.retention.time=7d
+      --web.console.libraries=/usr/share/prometheus/console_libraries
+      --web.console.templates=/usr/share/prometheus/consoles
 
   node-exporter:
     image: prom/node-exporter:v1.3.1
     deploy:
-      mode: replicated
-      replicas: 2
+      mode: global
     restart: always
     networks:
       - overlay_swarm_net
@@ -102,36 +86,68 @@ services:
       - /sys:/host/sys:ro
       - /:/rootfs:ro
     command:
-      - '--path.procfs=/host/proc'
-      - '--path.sysfs=/host/sys'
-      - '--path.rootfs=/rootfs'
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--path.rootfs=/rootfs"
       - '--collector.filesystem.ignored-mount-points="^(/rootfs|/host|)/(sys|proc|dev|host|etc)($$|/)"'
       - '--collector.filesystem.ignored-fs-types="^(sys|proc|auto|cgroup|devpts|ns|au|fuse\.lxc|mqueue)(fs|)$$"'
 
   grafana:
     depends_on:
-        - loki
+      - loki
     image: grafana/grafana:8.5.0
     deploy:
       labels:
-        - traefik.enable=true
-        - traefik.http.routers.grafana.entrypoints=websecure
-        - traefik.http.routers.grafana.rule=Host(`mon.localdomain`)
-        - traefik.http.routers.grafana.tls=true
-        - traefik.http.routers.grafana.service=grafana  
-        - traefik.http.services.grafana.loadbalancer.server.port=3000
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik_public"
+        - "traefik.http.routers.grafana.entrypoints=websecure"
+        - "traefik.http.routers.grafana.rule=Host(`mon.localdomain`)"
+        - "traefik.http.routers.grafana.service=grafana_service"
+        - "traefik.http.routers.grafana.tls=true"
+        - "traefik.http.routers.grafana.middlewares=grafana_proto"
+        - "traefik.http.services.grafana_service.loadbalancer.server.port=3000"
+        - "traefik.http.middlewares.grafana_proto.headers.customrequestheaders.X-Forwarded-Proto=https"
       mode: replicated
       replicas: 1
     ports:
-      - '3000:3000'
+      - "3000:3000"
     environment:
-        GF_SECURITY_ADMIN_USER: admin
-        GF_SECURITY_ADMIN_PASSWORD: test
-        GF_PATHS_PROVISIONING: '/conf/provisioning'
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: test
+      GF_PATHS_PROVISIONING: "/conf/provisioning"
     networks:
       - overlay_swarm_net
       - traefik_public
 
     volumes:
-        - /data/grafana:/conf/provisioning/
-        - /data/grafana/dashboards/application:/usr/share/grafana/public/dashboards/
+      - /data/grafana:/var/lib/grafana
+      - /data/grafana:/conf/provisioning/
+      - /data/grafana/dashboards/application:/usr/share/grafana/public/dashboards/
+ 
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor-arm64:0.99-porterdavid
+    command: ["start", "--privileged"]
+    networks:
+      - overlay_swarm_net
+      - traefik_public
+    privileged: true
+    deploy:
+      mode: global
+      labels:
+        prometheus-job: cadvisor
+    ports:
+      - target: 9095
+        published: 9095
+    devices:
+      - /dev/kmsg:/dev/kmsg
+    volumes:
+        - /:/rootfs:ro
+        - /var/run:/var/run:ro
+        - /sys:/sys:ro
+        - /var/lib/docker/:/var/lib/docker:ro
+        - /dev/disk/:/dev/disk:ro
+        - /etc/machine-id:/etc/machine-id:ro
+        - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
+        - /dev/kmsg:/dev/kmsg:rw
+        
