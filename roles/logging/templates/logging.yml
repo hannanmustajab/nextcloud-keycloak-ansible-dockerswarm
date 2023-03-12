@@ -3,7 +3,7 @@ version: '3'
 configs:
   fluent-bit-conf:
     file: /opt/fluent-bit.conf
-  loki-conf:
+  loki_config:
     file: /opt/loki.conf
 
 volumes:
@@ -20,26 +20,19 @@ networks:
 
 services:
   loki:
-    image: grafana/loki:2.7.1
-    command: >-
-      -config.file=/etc/loki/local-config.yaml
-      -boltdb.shipper.compactor.ring.instance-addr=127.0.0.1
-      -distributor.ring.instance-addr=127.0.0.1
-      -frontend.instance-addr=127.0.0.1
-      # -frontend.address=127.0.0.1
-      -index-gateway.ring.instance-addr=127.0.0.1
-      -ingester.lifecycler.addr=127.0.0.1
-      -query-scheduler.ring.instance-addr=127.0.0.1
-      -ruler.ring.instance-addr=127.0.0.1
-      -common.instance_interface_names="lo"
-      -common.ring.instance_interface_names="lo"
-      -server.grpc_listen_port=9096
+    image: grafana/loki:2.7.3
     ports:
       - 3100:3100
+    configs:
+     - source: loki_config
+       target: /etc/loki/loki-config.yaml
     volumes:
-      - data:/loki
+      - /data/loki:/loki
     networks:
       - overlay_swarm_net
+    deploy:
+      placement:
+        constraints: [node.hostname == node1]
     
   fluent-bit:
     image: cr.fluentbit.io/fluent/fluent-bit:2.0.6
@@ -129,7 +122,6 @@ services:
         - traefik.http.services.grafana.loadbalancer.server.port=3000
       mode: replicated
       replicas: 1
-    container_name: grafana
     ports:
       - '3000:3000'
     environment:
