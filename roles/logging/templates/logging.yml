@@ -47,6 +47,7 @@ services:
     networks:
       - overlay_swarm_net
     volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/containers:/var/lib/docker/containers
       - /sys/fs/cgroup/:/sys/fs/cgroup/
       # - /opt/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
@@ -73,6 +74,7 @@ services:
       --web.console.libraries=/usr/share/prometheus/console_libraries
       --web.console.templates=/usr/share/prometheus/consoles
 
+  
   node-exporter:
     image: prom/node-exporter:v1.3.1
     deploy:
@@ -125,7 +127,7 @@ services:
       GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: "kLBSfSter7uP1YRRis0hscySO4fpVovS"
       GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
       GF_AUTH_GENERIC_OAUTH_NAME: "Keycloak"
-      GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: "contains(roles[*], 'admin') && 'admin' || contains(roles[*], 'Editor') && 'Editor' || 'Viewer'"
+      GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: "contains(roles[*], 'Admin') && 'Admin' || contains(roles[*], 'Editor') && 'Editor' || 'Viewer'"
       GF_AUTH_GENERIC_OAUTH_SCOPES: profile
       GF_AUTH_GENERIC_OAUTH_TOKEN_URL: https://auth.localdomain/realms/vcc/protocol/openid-connect/token
       GF_SERVER_DOMAIN: grafana:3000
