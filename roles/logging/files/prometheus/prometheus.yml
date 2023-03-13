@@ -7,46 +7,44 @@ scrape_configs:
   - job_name: node-exporter
     scrape_interval: 5s
     static_configs:
-      - targets: ['backend_fluent-bit:2020']
+      - targets: ["backend_fluent-bit:2020"]
     metric_relabel_configs:
-    - source_labels: [node_name]
-      target_label: instance
-    - source_labels: [__name__]
-      regex: 'node_.*'
-      action: keep
-    - source_labels: [__name__]
-      regex: 'docker.*'
-      action: drop
-
+      - source_labels: [node_name]
+        target_label: instance
+      - source_labels: [__name__]
+        regex: "node_.*"
+        action: keep
+      - source_labels: [__name__]
+        regex: "docker.*"
+        action: drop
 
     # Make Prometheus scrape itself for metrics.
-  - job_name: 'prometheus'
+  - job_name: "prometheus"
     static_configs:
-    - targets: ['localhost:9090']
-  
-  - job_name: 'docker'
-        # metrics_path defaults to '/metrics'
-        # scheme defaults to 'http'.
+      - targets: ["localhost:9090"]
+
+  - job_name: "docker"
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
     static_configs:
-      - targets: ['localhost:9323']
+      - targets: ["localhost:9323"]
 
-
-  # # Create a job for Docker Swarm containers.
-  # - job_name: 'dockerswarm'
-  #   dockerswarm_sd_configs:
-  #     - host: unix:///var/run/docker.sock
-  #       role: tasks
-  #   relabel_configs:
-  #     # Only keep containers that should be running.
-  #     - source_labels: [__meta_dockerswarm_task_desired_state]
-  #       regex: running
-  #       action: keep
-  #     # Only keep containers that have a `prometheus-job` label.
-  #     - source_labels: [__meta_dockerswarm_service_label_prometheus_job]
-  #       regex: .+
-  #       action: keep
-  #     # Use the prometheus-job Swarm label as Prometheus job label.
-  #     - source_labels: [__meta_dockerswarm_service_label_prometheus_job]
-  #       target_label: job
-  #     - source_labels: [__meta_dockerswarm_node_hostname]
-  #       target_label: docker_node
+  # Create a job for Docker Swarm containers.
+  - job_name: "dockerswarm"
+    dockerswarm_sd_configs:
+      - host: unix:///var/run/docker.sock
+        role: nodes
+    # relabel_configs:
+    #   # Only keep containers that should be running.
+    #   - source_labels: [__meta_dockerswarm_task_desired_state]
+    #     regex: running
+    #     action: keep
+    #   # Only keep containers that have a `prometheus-job` label.
+    #   - source_labels: [__meta_dockerswarm_service_label_prometheus_job]
+    #     regex: .+
+    #     action: keep
+    #   # Use the prometheus-job Swarm label as Prometheus job label.
+    #   - source_labels: [__meta_dockerswarm_service_label_prometheus_job]
+    #     target_label: job
+    #   - source_labels: [__meta_dockerswarm_node_hostname]
+    #     target_label: docker_node

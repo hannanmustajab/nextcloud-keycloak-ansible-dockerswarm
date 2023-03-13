@@ -1,6 +1,5 @@
-version: '3'
+version: "3"
 ## TODO : Extra hosts
-
 
 networks:
   overlay_swarm_net:
@@ -9,7 +8,6 @@ networks:
 
   traefik_public:
     external: true
-
 
 services:
   nextcloud:
@@ -38,18 +36,18 @@ services:
       - NEXTCLOUD_ADMIN_USER=admin
       - NEXTCLOUD_ADMIN_PASSWORD=admin
       - NEXTCLOUD_TRUSTED_DOMAINS=cloud.localdomain
-    
+
     extra_hosts:
       - "auth.localdomain:192.168.50.5"
-    
+
     networks:
       overlay_swarm_net:
-            ipv4_address: 192.168.50.7
+        ipv4_address: 192.168.50.7
       traefik_public:
 
     depends_on:
       - db
-  
+
   nextcloud-keycloak-integrator:
     image: 127.0.0.1:5000/nextcloud-keycloak-integrator
     restart: on-failure
@@ -60,8 +58,8 @@ services:
       - KEYCLOAK_ADMIN_PASSWORD=admin
       - SAMPLE_USER_PASSWORD=itsdifficult
       - OIDC_CLIENT_ID=nextcloud
-      - OIDC_PROVIDER_URL=localhost:8080/realms/vcc
-      - OIDC_LOGOUT_URL=localhost/apps/oidc_login/oidc
+      - OIDC_PROVIDER_URL=https://auth.localdomain:8080/realms/vcc
+      - OIDC_LOGOUT_URL=https://auth.localdomain/apps/oidc_login/oidc
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
@@ -69,9 +67,8 @@ services:
       - keycloak
       - nextcloud
     networks:
-    - overlay_swarm_net
-    - traefik_public
+      - overlay_swarm_net
+      - traefik_public
 
     extra_hosts:
       - "auth.localdomain:192.168.50.5"
-    

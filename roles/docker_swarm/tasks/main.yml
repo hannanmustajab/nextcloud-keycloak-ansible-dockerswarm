@@ -9,29 +9,11 @@
 - name: Get join-token for worker nodes
   set_fact:
     join_token_worker: "{{ hostvars[groups['swarm-managers'][0]].result.swarm_facts.JoinTokens.Worker }}"
-  
+
 - name: Join workers
-  community.general.docker_swarm:
+  community.docker.docker_swarm:
     state: join
     join_token: "{{ join_token_worker }}"
     advertise_addr: "{{ ansible_host }}"
     remote_addrs: "{{ hostvars[groups['swarm-managers'][0]].ansible_host }}"
   when: inventory_hostname in groups['swarm-workers']
-
-
-
-# - name: Init a new swarm on first node
-#   community.docker.docker_swarm:
-#     state: present
-#     advertise_addr: "{{ hostvars[ groups['swarm-managers'] | first ]['ansible_host']}}:2375"
-#   register: docker_swarm
-#   when: inventory_hostname == 'node1'
-
-# - name: Join swarm on second node
-#   community.docker.docker_swarm:
-#     join_token: "{{ hostvars['node1']['docker_swarm']['swarm_facts']['JoinTokens']['Worker'] }}"
-#     remote_addrs:
-#     - "{{ hostvars['node1']['ansible_default_ipv4']['address'] }}"
-#     state: join
-#     advertise_addr: "{{ ansible_host }}"
-#   when: inventory_hostname == 'node2'

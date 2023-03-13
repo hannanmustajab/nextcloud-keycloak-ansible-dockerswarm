@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   db:
@@ -8,19 +8,17 @@ services:
       - POSTGRES_USER=vcc-test
       - POSTGRES_PASSWORD=vcc-test
     ports:
-      - '5432:5432'
-    volumes: 
+      - "5432:5432"
+    volumes:
       - "/data/postgresql:/var/lib/postgresql/data"
       - "/opt/keycloak.sql:/docker-entrypoint-initdb.d/keycloak.sql"
       - "/opt/nextcloud.sql:/docker-entrypoint-initdb.d/nextcloud.sql"
     networks:
-    - overlay_swarm_net
-  
+      - overlay_swarm_net
 
 volumes:
   db:
     driver: local
-
 
 networks:
   overlay_swarm_net:
@@ -30,4 +28,3 @@ networks:
       driver: default
       config:
         - subnet: "192.168.50.0/24"
-   
