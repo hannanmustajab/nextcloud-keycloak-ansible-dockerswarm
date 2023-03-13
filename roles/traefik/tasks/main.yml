@@ -8,6 +8,11 @@
   ansible.builtin.template:
     src: acme.json
     dest: /opt/acme.json
+
+- name: Copy the ssl int docker file directory
+  ansible.builtin.copy:
+    src: ssl-init/
+    dest: /opt/sslgenerator/ssl-init
     
 - name: Create /data/certs directory to store certificates.
   ansible.builtin.file:
@@ -48,7 +53,3 @@
     compose:
     - /opt/traefik.yml
     with_registry_auth: true
-
-
-
-
