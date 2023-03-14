@@ -41,7 +41,7 @@ services:
 
     networks:
       overlay_swarm_net:
-        ipv4_address: 192.168.50.7
+        ipv4_address: "192.168.50.7"
       traefik_public:
 
     depends_on:

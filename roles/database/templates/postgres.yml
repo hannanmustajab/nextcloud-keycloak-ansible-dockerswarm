@@ -23,7 +23,6 @@ volumes:
 networks:
   overlay_swarm_net:
     name: overlay_swarm_net
-    driver: overlay
     ipam:
       driver: default
       config:
