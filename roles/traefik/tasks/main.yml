@@ -4,10 +4,10 @@
     src: traefik.yml
     dest: /opt/traefik.yml
   
-- name: Copy the acme.json file 
-  ansible.builtin.template:
-    src: acme.json
-    dest: /opt/acme.json
+# - name: Copy the acme.json file 
+#   ansible.builtin.template:
+#     src: acme.json
+#     dest: /opt/acme.json
 
 - name: Copy the ssl int docker file directory
   ansible.builtin.copy:

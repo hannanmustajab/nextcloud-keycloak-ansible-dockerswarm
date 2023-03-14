@@ -1,72 +1,65 @@
 ---
-- name: Install/Update prerequisites. 
+- name: Install/Update prerequisites.
   hosts: all
   become: true
   roles:
-    - role: roles/update
+    - role: update
 
 - name: Common part of the playbook for both nodes
   hosts: all
   become: true
   roles:
-  - nfs
-  - docker
-  - docker_swarm
-  # - registry
-  # - database
-  # - keycloak
-  #- nextcloud
-  #- monitoring
-  # - logging
-  #- dashboard
+    - nfs
+    - docker
+    - docker_swarm
 
-- name: Setup local docker registry for custom images 
+- name: Setup local docker registry for custom images
   hosts: node1
   become: true
   roles:
-    - role: roles/registry
+    - role: registry
 
 - name: Login in local docker registry with "VCC" user
   hosts: all
   become: true
   tasks:
-  - name: login
-    community.docker.docker_login:
-      username: vcc
-      password: vcc
-      registry_url: http://127.0.0.1:5000
-    register: docker_registry_login
-    # until: docker_registry_login is success
-    # retries: 300
-    delay: 1
+    - name: Login
+      community.docker.docker_login:
+        username: vcc
+        password: vcc
+        registry_url: http://127.0.0.1:5000
+      register: docker_registry_login
+      # until: docker_registry_login is success
+      # retries: 300
+      delay: 1
 
 
 - name: Database Services
   hosts: node1
   become: true
   roles:
-    - role : roles/database
+    - role: database
 
 
-- name: keycloak Services
+- name: Keycloak Services
   hosts: node1
   become: true
   roles:
-    - role : roles/keycloak
+    - role: keycloak
 
 
-- name: nextcloud Services
+- name: Nextcloud Services
   hosts: node1
   become: true
   roles:
-    - role : roles/nextcloud
+    - role: nextcloud
 
 
-- name: traefik Services
+- name: Traefik Services
   hosts: node1
   become: true
   roles:
-    - role : roles/traefik
+    - role: traefik
 
 
 - name: Logging services part of the playbook for both nodes
@@ -74,3 +67,4 @@
   become: true
   roles:
     - logging
+    

@@ -72,8 +72,6 @@ services:
         constraints:
           - node.role == manager
 
-
-
 networks:
   overlay_swarm_net:
     name: overlay_swarm_net

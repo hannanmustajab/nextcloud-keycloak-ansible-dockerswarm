@@ -36,7 +36,3 @@
     compose:
     - /opt/nextcloud_stack.yml
     with_registry_auth: true
-
-
-
-

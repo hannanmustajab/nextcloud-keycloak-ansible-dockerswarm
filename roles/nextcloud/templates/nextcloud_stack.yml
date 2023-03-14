@@ -11,7 +11,6 @@ networks:
 
 services:
   nextcloud:
-    container_name: nextcloud
     image: nextcloud:23.0-apache
     hostname: nextcloud
     deploy:
@@ -50,6 +49,12 @@ services:
 
   nextcloud-keycloak-integrator:
     image: 127.0.0.1:5000/nextcloud-keycloak-integrator
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
     restart: on-failure
     environment:
       - NEXTCLOUD_CONTAINER_NAME=nextcloud_nextcloud
@@ -62,7 +67,6 @@ services:
       - OIDC_LOGOUT_URL=https://cloud.localdomain/apps/oidc_login/oidc
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-
     depends_on:
       - keycloak
       - nextcloud
