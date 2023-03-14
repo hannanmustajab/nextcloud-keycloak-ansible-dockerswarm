@@ -21,6 +21,7 @@ services:
     environment:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_PROXY=edge
       - KC_DB=postgres
       - KC_DB_URL=jdbc:postgresql://db/keycloak
       - KC_DB_PASSWORD=keycloak

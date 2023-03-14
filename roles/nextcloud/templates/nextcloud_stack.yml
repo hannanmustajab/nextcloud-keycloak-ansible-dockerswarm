@@ -59,7 +59,7 @@ services:
       - SAMPLE_USER_PASSWORD=itsdifficult
       - OIDC_CLIENT_ID=nextcloud
       - OIDC_PROVIDER_URL=https://auth.localdomain:8080/realms/vcc
-      - OIDC_LOGOUT_URL=https://auth.localdomain/apps/oidc_login/oidc
+      - OIDC_LOGOUT_URL=https://cloud.localdomain/apps/oidc_login/oidc
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 

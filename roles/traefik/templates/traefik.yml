@@ -19,9 +19,7 @@ services:
           condition: none
         mode: replicated
         replicas: 1
-
-
-
+        
   reverse-proxy:
     # The official v2 Traefik docker image
     image: traefik:v2.9
@@ -29,6 +27,8 @@ services:
     command: 
          # enable Web UI
       - --api.insecure=true
+      - --metrics
+      - --metrics.prometheus.buckets=0.1,0.3,1.2,5.0
       # set provider (Docker Swarm)
       - --providers.docker
       - --providers.docker.swarmMode=true

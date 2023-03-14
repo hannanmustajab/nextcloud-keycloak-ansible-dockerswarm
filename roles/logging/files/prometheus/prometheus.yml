@@ -23,28 +23,21 @@ scrape_configs:
     static_configs:
       - targets: ["localhost:9090"]
 
-  - job_name: "docker"
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
+  # Metrics of traefik
+  - job_name: "traefik"
     static_configs:
-      - targets: ["localhost:9323"]
+      - targets: ["traefik_reverse-proxy:8080"]
 
-  # Create a job for Docker Swarm containers.
-  - job_name: "dockerswarm"
+# Create a job for Docker daemons.
+  - job_name: 'docker'
     dockerswarm_sd_configs:
       - host: unix:///var/run/docker.sock
         role: nodes
-    # relabel_configs:
-    #   # Only keep containers that should be running.
-    #   - source_labels: [__meta_dockerswarm_task_desired_state]
-    #     regex: running
-    #     action: keep
-    #   # Only keep containers that have a `prometheus-job` label.
-    #   - source_labels: [__meta_dockerswarm_service_label_prometheus_job]
-    #     regex: .+
-    #     action: keep
-    #   # Use the prometheus-job Swarm label as Prometheus job label.
-    #   - source_labels: [__meta_dockerswarm_service_label_prometheus_job]
-    #     target_label: job
-    #   - source_labels: [__meta_dockerswarm_node_hostname]
-    #     target_label: docker_node
+    relabel_configs:
+      # Fetch metrics on port 9323.
+      - source_labels: [__meta_dockerswarm_node_address]
+        target_label: __address__
+        replacement: $1:9323
+      # Set hostname as instance label
+      - source_labels: [__meta_dockerswarm_node_hostname]
+        target_label: instance

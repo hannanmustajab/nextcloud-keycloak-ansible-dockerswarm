@@ -13,38 +13,19 @@
   ansible.builtin.copy:
     src: ssl-init/
     dest: /opt/sslgenerator/ssl-init
+    mode: 0644
     
 - name: Create /data/certs directory to store certificates.
   ansible.builtin.file:
     path: /data/certs
     state: directory
+    mode: 0644
 
 - name: Create /data/traefik directory to store traefik data.
   ansible.builtin.file:
     path: /data/traefik
     state: directory
-
-
-# - name: Copy ssl generator files to target node
-#   copy:
-#     src: "{{ item }}"
-#     dest: "/opt/sslgenerator/"
-#     mode: 0644
-#   with_items:
-#     - files/ssl-init
-#     - files/Dockerfile
-#     - files/entrypoint.sh
-
-
-# - name: Build and push container
-#   community.docker.docker_image:
-#     build:
-#       path: /opt/sslgenerator/ssl-init
-#     name: 127.0.0.1:5000/alpine/openssl:3.14
-#     tag: latest
-#     push: true
-#     source: build
-
+    mode: 0644
 
 - name: Deploy stack from a compose file
   community.docker.docker_stack:

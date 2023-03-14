@@ -125,6 +125,8 @@ setBoolean oidc_login_end_session_redirect true
 setString oidc_login_logout_url "${OIDC_LOGOUT_URL}"
 setBoolean oidc_login_auto_redirect true
 setBoolean oidc_login_redir_fallback true
+setBoolean oidc_login_redir_fallback true
+setBoolean oidc_login_tls_verify false
 
 runOCC config:system:set --value=preferred_username --type=string -- oidc_login_attributes id
 runOCC config:system:set --value=email --type=string -- oidc_login_attributes mail

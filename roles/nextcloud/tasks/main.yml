@@ -14,30 +14,20 @@
     path: /data/nextcloud
     state: directory
 
-
-# - name: Copy Nextcloud files to target node
-#   copy:
-#     src: "{{ item }}"
-#     dest: "/opt/nextcloud_integrator/"
-#     mode: 0644
-#   with_items:
-#     - files/Makefile
-#     - files/container/Dockerfile
-#     - files/container/entrypoint.sh
-
-# - name: Build and run Nextcloud container
-#   command: "make -C /opt/nextcloud_integrator build"
-  
-
+- name: Copy nextcloud-integrator folder to node
+  ansible.builtin.copy:
+    src: container/
+    dest: /opt/nextcloud_integrator
+    mode: 0644
+    
 - name: Build and push container
   community.docker.docker_image:
     build:
-      path: /opt/nextcloud_integrator/container
+      path: /opt/nextcloud_integrator/
     name: 127.0.0.1:5000/nextcloud-keycloak-integrator
     tag: latest
     push: true
     source: build
-
 
 - name: Deploy stack from a compose file
   community.docker.docker_stack:

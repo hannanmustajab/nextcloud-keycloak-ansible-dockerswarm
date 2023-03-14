@@ -9,11 +9,6 @@
     src: grafana/
     dest: /data/grafana
 
-- name: Copy the promtail directory
-  ansible.builtin.copy:
-    src: promtail/
-    dest: /data/promtail/
-
 - name: Change ownership of prometheus to nobody for persisting data.
   file:
     path: /data/prometheus
@@ -22,17 +17,15 @@
     recurse: yes
     state: directory
 
-    
 - name: Copy the fluentbit configuration  file
   ansible.builtin.template:
     src: fluent-bit.conf
     dest: /opt/fluent-bit.conf
 
-- name: Copy the loki configuration  file
+- name: Copy the loki configuration file
   ansible.builtin.copy:
     src: loki/loki.conf
     dest: /opt/loki.conf
-
 
 - name: Copy the backend stack file
   ansible.builtin.template:
@@ -44,7 +37,5 @@
     state: present
     name: backend
     compose:
-    - /opt/logging.yml
+      - /opt/logging.yml
     with_registry_auth: true
-
-
