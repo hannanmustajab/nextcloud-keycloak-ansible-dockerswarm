@@ -20,14 +20,14 @@
     dest: /opt/nextcloud_integrator
     mode: 0644
     
-- name: Build and push container
-  community.docker.docker_image:
-    build:
-      path: /opt/nextcloud_integrator/
-    name: 127.0.0.1:5000/nextcloud-keycloak-integrator
-    tag: latest
-    push: true
-    source: build
+# - name: Build and push container
+#   community.docker.docker_image:
+#     build:
+#       path: /opt/nextcloud_integrator/
+#     name: 127.0.0.1:5000/nextcloud-keycloak-integrator
+#     tag: latest
+#     push: true
+#     source: build
 
 - name: Deploy stack from a compose file
   community.docker.docker_stack:
