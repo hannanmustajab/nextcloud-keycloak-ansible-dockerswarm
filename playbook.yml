@@ -34,32 +34,32 @@
       delay: 1
 
 
-- name: Database Services
-  hosts: node1
-  become: true
-  roles:
-    - role: database
+# - name: Database Services
+#   hosts: node1
+#   become: true
+#   roles:
+#     - role: database
 
 
-- name: Keycloak Services
-  hosts: node1
-  become: true
-  roles:
-    - role: keycloak
+# - name: Keycloak Services
+#   hosts: node1
+#   become: true
+#   roles:
+#     - role: keycloak
 
 
-- name: Nextcloud Services
-  hosts: node1
-  become: true
-  roles:
-    - role: nextcloud
+# - name: Nextcloud Services
+#   hosts: node1
+#   become: true
+#   roles:
+#     - role: nextcloud
 
 
-- name: Traefik Services
-  hosts: node1
-  become: true
-  roles:
-    - role: traefik
+# - name: Traefik Services
+#   hosts: node1
+#   become: true
+#   roles:
+#     - role: traefik
 
 
 - name: Logging services part of the playbook for both nodes
