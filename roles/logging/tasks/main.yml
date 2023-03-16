@@ -3,6 +3,7 @@
   ansible.builtin.copy:
     src: prometheus/
     dest: /data/prometheus
+    # mode: "0644"
 
 - name: Copy the grafana directory
   ansible.builtin.copy:

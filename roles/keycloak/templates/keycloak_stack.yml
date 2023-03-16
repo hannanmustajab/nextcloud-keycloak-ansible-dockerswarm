@@ -1,7 +1,7 @@
 version: '3'
 
 
-services:
+services: 
   keycloak:
     image: quay.io/keycloak/keycloak:20.0.1
     deploy:
@@ -26,7 +26,7 @@ services:
       - KC_DB_URL=jdbc:postgresql://db/keycloak
       - KC_DB_PASSWORD=keycloak
       - KC_DB_USERNAME=keycloak
-    command: start-dev --proxy=edge
+    command: start-dev --proxy=edge --hostname-url=https://auth.localdomain
     networks:
        overlay_swarm_net:
           ipv4_address: 192.168.50.5

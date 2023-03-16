@@ -13,8 +13,6 @@ services:
   nextcloud:
     image: nextcloud:23.0-apache
     hostname: nextcloud
-    extra_hosts:
-      - "auth.localdomain:192.168.50.5"
     deploy:
       replicas: 1
       labels:
@@ -27,6 +25,8 @@ services:
         - "traefik.http.routers.nextcloud.middlewares=nextcloud_proto"
         - "traefik.http.services.nextcloud_service.loadbalancer.server.port=80"
         - "traefik.http.middlewares.nextcloud_proto.headers.customrequestheaders.X-Forwarded-Proto=https"
+    extra_hosts:
+      - "auth.localdomain:192.168.50.5"
     volumes:
       - /data/nextcloud:/var/www/html
     environment:
@@ -63,7 +63,7 @@ services:
       - KEYCLOAK_ADMIN_PASSWORD=admin
       - SAMPLE_USER_PASSWORD=itsdifficult
       - OIDC_CLIENT_ID=nextcloud
-      - OIDC_PROVIDER_URL=keycloak_keycloak:8080/realms/vcc
+      - OIDC_PROVIDER_URL=http://192.168.50.5:8080/realms/vcc
       - OIDC_LOGOUT_URL=https://cloud.localdomain/apps/oidc_login/oidc
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
