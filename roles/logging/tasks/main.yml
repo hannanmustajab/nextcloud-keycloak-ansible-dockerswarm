@@ -3,12 +3,13 @@
   ansible.builtin.copy:
     src: prometheus/
     dest: /data/prometheus
-    # mode: "0644"
+    mode: "0644"
 
 - name: Copy the grafana directory
   ansible.builtin.copy:
     src: grafana/
     dest: /data/grafana
+    mode: "0644"
 
 - name: Change ownership of prometheus to nobody for persisting data.
   file:
@@ -22,16 +23,19 @@
   ansible.builtin.template:
     src: fluent-bit.conf
     dest: /opt/fluent-bit.conf
+    mode: "0644"
 
 - name: Copy the loki configuration file
   ansible.builtin.copy:
     src: loki/loki.conf
     dest: /opt/loki.conf
+    mode: "0644"
 
 - name: Copy the backend stack file
   ansible.builtin.template:
     src: logging.yml
     dest: /opt/logging.yml
+    mode: "0644"
 
 - name: Deploy backend stack from a compose file
   community.docker.docker_stack:

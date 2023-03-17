@@ -3,6 +3,7 @@
   ansible.builtin.template:
     src: nextcloud_stack.yml
     dest: /opt/nextcloud_stack.yml
+    mode: "0644"
 
 - name: Delete /data/nextcloud directory to store nextcloud data.
   ansible.builtin.file:
@@ -13,6 +14,7 @@
   ansible.builtin.file:
     path: /data/nextcloud
     state: directory
+    mode: "0644"
 
 - name: Copy nextcloud-integrator folder to node
   ansible.builtin.copy:
@@ -34,5 +36,5 @@
     state: present
     name: nextcloud
     compose:
-    - /opt/nextcloud_stack.yml
+      - /opt/nextcloud_stack.yml
     with_registry_auth: true

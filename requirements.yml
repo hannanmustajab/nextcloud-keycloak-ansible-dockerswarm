@@ -1,6 +1,6 @@
 ---
 collections: 
-#- { name: ansible, version: 7.0 }
+# - { name: ansible, version: 7.0 }
 # - { name: ansible-lint, version: 6.9 }
 - { name: ansible.posix, version: 1.4.0 }
 - { name: community.docker }

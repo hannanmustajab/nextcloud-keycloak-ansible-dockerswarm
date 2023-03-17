@@ -3,6 +3,7 @@
   ansible.builtin.template:
     src: keycloak_stack.yml
     dest: /opt/keycloak_stack.yml
+    mode: "0644"
 
 - name: Deploy stack from a compose file
   community.docker.docker_stack:

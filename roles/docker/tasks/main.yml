@@ -1,7 +1,7 @@
 ---
 - name: Update package lists
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
 
 - name: Add Docker repository
   ansible.builtin.apt_repository:
@@ -36,10 +36,3 @@
 - name: Install Docker Module for Python
   ansible.builtin.pip:
     name: docker-cli
-
-
-
-    
-    
-
-

@@ -2,7 +2,7 @@
 - name: Init Docker Swarm on node 1
   community.docker.docker_swarm:
     state: present
-    advertise_addr: "{{ hostvars[ groups['swarm-managers'] | first ]['ansible_host']}}:2375"
+    advertise_addr: "{{ hostvars[groups['swarm-managers'] | first ]['ansible_host']}}:2375"
   register: result
   when: inventory_hostname is in groups['swarm-managers']
 
