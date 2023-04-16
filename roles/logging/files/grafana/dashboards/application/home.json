@@ -5,7 +5,8 @@
         "$$hashKey": "object:1058",
         "builtIn": 1,
         "datasource": {
-          "type": "datasource",
+          "type": "datasource", 
+          
           "uid": "grafana"
         },
         "enable": true,
