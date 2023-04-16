@@ -20,8 +20,8 @@ networks:
 services:
   loki:
     image: grafana/loki:2.7.3
-    ports:
-      - 3100:3100
+    # ports:
+    #   - 3100:3100
     configs:
       - source: loki_config
         target: /etc/loki/loki-config.yaml
@@ -64,8 +64,8 @@ services:
       replicas: 1
       placement:
         constraints: [node.hostname == node1]
-    ports:
-      - "9090:9090"
+    # ports:
+    #   - "9090:9090"
     networks:
       - overlay_swarm_net
       - traefik_public
@@ -120,8 +120,8 @@ services:
       replicas: 1
     extra_hosts:
       - "auth.localdomain:192.168.50.5"
-    ports:
-      - "3000:3000"
+    # ports:
+    #   - "3000:3000"
     environment:
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: test
@@ -159,8 +159,8 @@ services:
       mode: global
       labels:
         prometheus-job: cadvisor
-    ports:
-      - "9095:8080"
+    # ports:
+    #   - "9095:8080"
     devices:
       - /dev/kmsg:/dev/kmsg
     volumes:

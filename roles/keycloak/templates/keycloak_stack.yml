@@ -33,6 +33,7 @@ services:
        traefik_public:
     depends_on:
       - db
+      - postgres_db
     
 
 

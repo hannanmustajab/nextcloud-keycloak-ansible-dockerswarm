@@ -14,7 +14,11 @@ services:
     image: nextcloud:23.0-apache
     hostname: nextcloud
     deploy:
+      mode: replicated
       replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=traefik_public"
@@ -44,6 +48,7 @@ services:
 
     depends_on:
       - postgres_db
+      - keycloak_keycloak
 
   nextcloud-keycloak-integrator:
     image: 127.0.0.1:5000/nextcloud-keycloak-integrator
@@ -68,7 +73,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
-      - keycloak_keycloak
       - nextcloud
     networks:
       - overlay_swarm_net
