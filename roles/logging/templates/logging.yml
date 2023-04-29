@@ -64,8 +64,8 @@ services:
       replicas: 1
       placement:
         constraints: [node.hostname == node1]
-    # ports:
-    #   - "9090:9090"
+    ports:
+      - "9090:9090"
     networks:
       - overlay_swarm_net
       - traefik_public
