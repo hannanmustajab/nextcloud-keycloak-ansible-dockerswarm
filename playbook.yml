@@ -48,11 +48,11 @@
     - role: keycloak
 
 
-- name: Nextcloud Services
-  hosts: node1
-  become: true
-  roles:
-    - role: nextcloud
+# - name: Nextcloud Services
+#   hosts: node1
+#   become: true
+#   roles:
+#     - role: nextcloud
 
 
 - name: Traefik Services
@@ -62,8 +62,8 @@
     - role: traefik
 
 
-- name: Logging services part of the playbook for both nodes
-  hosts: node1
-  become: true
-  roles:
-    - logging
+# - name: Logging services part of the playbook for both nodes
+#   hosts: node1
+#   become: true
+#   roles:
+#     - logging

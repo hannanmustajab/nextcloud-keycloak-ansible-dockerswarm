@@ -1,4 +1,26 @@
 ---
+- name: Delete nextcloud image 
+  community.docker.docker_image:
+    build:
+      path: "/opt/nextcloud/container/"
+      nocache: true
+    name: "{{ registry_url }}:{{ registry_port }}/nextcloud"
+    source: build
+    state: absent
+    force_absent: true
+
+- name: Build an image and push it to a private repo
+  community.docker.docker_image:
+    build:
+      path: "{{ shared_volumes }}/nextcloud/container/"
+      nocache: true
+    name: "{{ registry_url }}:{{ registry_port }}/nextcloud"
+    push: true
+    source: build
+    debug: true
+
+
+
 - name: Copy the  stack file
   ansible.builtin.template:
     src: nextcloud_stack.yml

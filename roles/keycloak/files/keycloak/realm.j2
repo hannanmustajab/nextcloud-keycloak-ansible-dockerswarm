@@ -1,0 +1,58 @@
+{
+  "displayName":"Virtualization and Cloud Computing",
+  "id":"vcc",
+  "realm":"vcc",
+  "enabled":true,
+  "clients": [
+    { 
+      "id": "nextcloud",
+      "clientId": "nextcloud",
+      "description": "Integration with Nextcloud",
+      "publicClient": false,
+      "redirectUris": ["*"],
+      "enabled": true,
+      "secret": "nLMC8I6MLnfTnAeK23fFWYNiYpSrERmn"
+    },
+    { 
+      "id": "grafana",
+      "clientId": "grafana",
+      "description": "Integration with Grafana",
+      "publicClient": false,
+      "redirectUris": ["*"],
+      "enabled": true,
+      "secret": "nLMC8I6MLnfTnAeK23fFAWCiYpSrERdg"
+    }  
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "Admin"
+      },
+      {
+        "name": "Viewer"
+      },
+      {
+        "name": "Editor"
+      }
+    ]
+  },
+  "users": [
+    {
+      "id": "vcc-examiner",
+      "username": "vcc-examiner",
+      "firstName": "vcc-examiner",
+      "lastName": "vcc-examiner",
+      "email": "vcc.examiner@bots.dibris.unige.it",
+      "emailVerified": true,
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "rawPassword",
+          "value": "itsdifficult"
+        }
+      ],
+      "realmRoles": [
+          "Viewer"
+      ]
+    }]
+}

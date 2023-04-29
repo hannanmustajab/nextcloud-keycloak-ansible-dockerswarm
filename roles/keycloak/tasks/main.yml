@@ -1,9 +1,57 @@
 ---
+- name: Erase keycloak image in order to update entrypoint
+  community.docker.docker_image:
+    build:
+      path: "/opt/keycloak/"
+      nocache: true
+    name: "127.0.0.1:5000/keycloak"
+    source: build
+    state: absent
+    force_absent: true
+
 - name: Copy the  stack file
   ansible.builtin.template:
     src: keycloak_stack.yml
     dest: /opt/keycloak_stack.yml
     mode: "0644"
+
+- name: Copy keycloak folder to node
+  ansible.builtin.copy:
+    src: keycloak/
+    dest: /opt/keycloak/
+    mode: 0777
+
+- name: Create directories needed for logging 
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0777'
+  with_items:
+    - "/data/logs/keycloak"
+
+- name: Create file needed for keycloak logging
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: touch
+    mode: '0777'
+  with_items:
+    - "/data/logs/keycloak/keycloak.log"
+
+- name: "Render realm.json file using variables"
+  ansible.builtin.copy:
+    src: "keycloak/realm.j2"
+    dest: "/opt/keycloak/realm.json"
+    mode: '0777'
+
+
+- name: Build and push keycloak container
+  community.docker.docker_image:
+    build:
+      path: /opt/keycloak/container/
+    name: 127.0.0.1:5000/keycloak
+    tag: latest
+    push: true
+    source: build
 
 - name: Deploy stack from a compose file
   community.docker.docker_stack:

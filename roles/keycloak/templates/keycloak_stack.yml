@@ -3,7 +3,7 @@ version: '3'
 
 services: 
   keycloak:
-    image: quay.io/keycloak/keycloak:20.0.1
+    image:  127.0.0.1:5000/keycloak
     deploy:
       mode: replicated
       replicas: 1
@@ -26,6 +26,9 @@ services:
       - KC_DB_URL=jdbc:postgresql://db/keycloak
       - KC_DB_PASSWORD=keycloak
       - KC_DB_USERNAME=keycloak
+    volumes:
+      - /opt/keycloak/realm.json:/opt/keycloak/data/import/realm.json
+      - /data/logs/keycloak/keycloak.log:/logs/keycloak.log
     command: start-dev --proxy=edge --hostname-url=https://auth.localdomain
     networks:
        overlay_swarm_net:
