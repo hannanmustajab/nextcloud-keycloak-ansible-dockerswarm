@@ -119,23 +119,25 @@ services:
       mode: replicated
       replicas: 1
     extra_hosts:
-      - "auth.localdomain:192.168.50.5"
+      - "auth.localdomain:192.168.60.5"
     # ports:
     #   - "3000:3000"
     environment:
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: test
       GF_PATHS_PROVISIONING: "/conf/provisioning"
+
+      GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
       GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP: "true"
-      GF_AUTH_GENERIC_OAUTH_SCOPES: openid profile email
-      GF_AUTH_GENERIC_OAUTH_API_URL: http://192.168.60.5:8080/realms/vcc/protocol/openid-connect/userinfo
-      GF_AUTH_GENERIC_OAUTH_AUTH_URL: https://auth.localdomain/realms/vcc/protocol/openid-connect/auth
+      GF_AUTH_GENERIC_OAUTH_SCOPES: openid email profile
+      GF_AUTH_GENERIC_OAUTH_NAME: "Keycloak"
+      GF_AUTH_GENERIC_OAUTH_TLS_SKIP_VERIFY_INSECURE: "true"
+      GF_AUTH_GENERIC_OAUTH_API_URL: "http://192.168.60.5:8080/realms/vcc/protocol/openid-connect/userinfo"
+      GF_AUTH_GENERIC_OAUTH_AUTH_URL: "https://auth.localdomain/realms/vcc/protocol/openid-connect/auth"
+      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "http://192.168.60.5:8080/realms/vcc/protocol/openid-connect/token"    
       GF_AUTH_GENERIC_OAUTH_CLIENT_ID: "grafana"
       GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: "nLMC8I6MLnfTnAeK23fFAWCiYpSrERdg"
-      GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
-      GF_AUTH_GENERIC_OAUTH_NAME: "Keycloak"
       GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: "contains(roles[*], 'Admin') && 'Admin' || contains(roles[*], 'Editor') && 'Editor' || 'Viewer'"
-      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: http://192.168.60.5:8080/realms/vcc/protocol/openid-connect/token
       GF_SERVER_DOMAIN: mon.localdomain
       GF_SERVER_ROOT_URL: https://mon.localdomain
     networks:

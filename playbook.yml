@@ -62,8 +62,8 @@
     - role: traefik
 
 
-# - name: Logging services part of the playbook for both nodes
-#   hosts: node1
-#   become: true
-#   roles:
-#     - logging
+- name: Logging services part of the playbook for both nodes
+  hosts: node1
+  become: true
+  roles:
+    - logging

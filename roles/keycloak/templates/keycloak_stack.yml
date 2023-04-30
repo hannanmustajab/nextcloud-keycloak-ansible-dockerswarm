@@ -19,6 +19,11 @@ services:
         - "traefik.http.middlewares.keycloak_proto.headers.customrequestheaders.X-Forwarded-Proto=https"
     restart: on-failure
     environment:
+      - KC_PROXY_ADDRESS_FORWARDING="true"
+      - KC_HOSTNAME_STRICT= "false"
+      - KC_HOSTNAME=auth.localdomain
+      - KC_PROXY= edge
+      - KC_HTTP_ENABLED= "true"
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
       - KC_PROXY=edge
@@ -29,7 +34,7 @@ services:
     volumes:
       - /opt/keycloak/realm.json:/opt/keycloak/data/import/realm.json
       - /data/logs/keycloak/keycloak.log:/logs/keycloak.log
-    command: start-dev --proxy=edge --hostname-url=https://auth.localdomain
+    # command: start-dev 
     networks:
        overlay_swarm_net:
           ipv4_address: 192.168.60.5
