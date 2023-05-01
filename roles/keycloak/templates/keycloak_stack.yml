@@ -21,7 +21,7 @@ services:
     environment:
       - KC_PROXY_ADDRESS_FORWARDING="true"
       - KC_HOSTNAME_STRICT= "false"
-      - KC_HOSTNAME=auth.localdomain
+      # - KC_HOSTNAME=auth.localdomain
       - KC_PROXY= edge
       - KC_HTTP_ENABLED= "true"
       - KEYCLOAK_ADMIN=admin

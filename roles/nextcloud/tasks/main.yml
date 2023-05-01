@@ -1,25 +1,46 @@
 ---
-- name: Delete nextcloud image 
+- name: Erase nextcloud image in order to update entrypoint
   community.docker.docker_image:
     build:
-      path: "/opt/nextcloud/container/"
+      path: "/opt/nextcloud/"
       nocache: true
-    name: "{{ registry_url }}:{{ registry_port }}/nextcloud"
+    name: "127.0.0.1:5000/nextcloud"
     source: build
     state: absent
     force_absent: true
 
-- name: Build an image and push it to a private repo
+- name: copy nextcloud folder to node
+  ansible.builtin.copy:
+    src: nextcloud/
+    dest: /opt/nextcloud/
+    mode: 0777
+
+- name: Create directories needed for logging 
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0777'
+  with_items:
+    - "/data/logs/nextcloud"
+    - "/data/lock"
+
+- name: Create file needed for nextcloud logging
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: touch
+    mode: '0777'
+  with_items:
+    - "/data/logs/nextcloud/nextcloud.log"
+
+
+- name: Build and push nextcloud container
   community.docker.docker_image:
     build:
-      path: "{{ shared_volumes }}/nextcloud/container/"
-      nocache: true
-    name: "{{ registry_url }}:{{ registry_port }}/nextcloud"
+      path: /opt/nextcloud/container/
+    name: 127.0.0.1:5000/nextcloud
+    tag: latest
     push: true
     source: build
-    debug: true
-
-
 
 - name: Copy the  stack file
   ansible.builtin.template:
@@ -37,21 +58,6 @@
     path: /data/nextcloud
     state: directory
     mode: "0755"
-
-- name: Copy nextcloud-integrator folder to node
-  ansible.builtin.copy:
-    src: container/
-    dest: /opt/nextcloud_integrator
-    mode: 0644
-    
-- name: Build and push container
-  community.docker.docker_image:
-    build:
-      path: /opt/nextcloud_integrator/
-    name: 127.0.0.1:5000/nextcloud-keycloak-integrator
-    tag: latest
-    push: true
-    source: build
 
 - name: Deploy stack from a compose file
   community.docker.docker_stack:

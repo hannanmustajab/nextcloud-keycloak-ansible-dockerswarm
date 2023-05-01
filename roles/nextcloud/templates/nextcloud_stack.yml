@@ -1,5 +1,4 @@
 version: "3"
-## TODO : Extra hosts
 
 networks:
   overlay_swarm_net:
@@ -11,14 +10,11 @@ networks:
 
 services:
   nextcloud:
-    image: nextcloud:23.0-apache
+    image: 127.0.0.1:5000/nextcloud
     hostname: nextcloud
     deploy:
       mode: replicated
-      replicas: 1
-      placement:
-        constraints:
-          - node.role == manager
+      replicas: 5
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=traefik_public"
@@ -29,10 +25,16 @@ services:
         - "traefik.http.routers.nextcloud.middlewares=nextcloud_proto"
         - "traefik.http.services.nextcloud_service.loadbalancer.server.port=80"
         - "traefik.http.middlewares.nextcloud_proto.headers.customrequestheaders.X-Forwarded-Proto=https"
+        - "traefik.http.services.nextcloud_service.loadbalancer.sticky=true"
+        - "traefik.http.services.nextcloud_service.loadbalancer.sticky.cookie.name=StickyCookie"
+        - "traefik.http.services.nextcloud_service.loadbalancer.sticky.cookie.secure=true"
+
     extra_hosts:
       - "auth.localdomain:192.168.60.5"
     volumes:
       - /data/nextcloud:/var/www/html
+      - /data/logs/nextcloud/nextcloud.log:/nextcloud.log
+      - /data/lock:/var/lock
     environment:
       - POSTGRES_DB=nextcloud
       - POSTGRES_USER=nextcloud
@@ -41,6 +43,12 @@ services:
       - NEXTCLOUD_ADMIN_USER=admin
       - NEXTCLOUD_ADMIN_PASSWORD=admin
       - NEXTCLOUD_TRUSTED_DOMAINS=cloud.localdomain
+      - OIDC_CLIENT_ID=nextcloud
+      - OIDC_PROVIDER_URL=http://192.168.60.5:8080/realms/vcc
+      - OIDC_LOGOUT_URL=https://cloud.localdomain/apps/oidc_login/oidc
+      - OIDC_CLIENT_SECRET=nLMC8I6MLnfTnAeK23fFWYNiYpSrERmn
+      
+
 
     networks:
       overlay_swarm_net:
@@ -49,31 +57,3 @@ services:
     depends_on:
       - postgres_db
       - keycloak_keycloak
-
-  nextcloud-keycloak-integrator:
-    image: 127.0.0.1:5000/nextcloud-keycloak-integrator
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints:
-          - node.role == manager
-    restart: on-failure
-    extra_hosts:
-      - "auth.localdomain:192.168.60.5"
-    environment:
-      - NEXTCLOUD_CONTAINER_NAME=nextcloud_nextcloud
-      - KEYCLOAK_CONTAINER_NAME=keycloak_keycloak
-      - KEYCLOAK_ADMIN_USER=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
-      - SAMPLE_USER_PASSWORD=itsdifficult
-      - OIDC_CLIENT_ID=nextcloud
-      - OIDC_PROVIDER_URL=http://192.168.60.5:8080/realms/vcc
-      - OIDC_LOGOUT_URL=https://cloud.localdomain/apps/oidc_login/oidc
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    depends_on:
-      - nextcloud
-    networks:
-      - overlay_swarm_net
-   
