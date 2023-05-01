@@ -9,9 +9,14 @@
   hosts: all
   become: true
   roles:
+    - logging_common
     - nfs
     - docker
     - docker_swarm
+    
+
+# Add a common part where daemon is updated on both the nodes.
+
 
 - name: Setup local docker registry for custom images
   hosts: node1
@@ -68,8 +73,8 @@
   roles:
     - logging
 
-- name: Grafana services part of the playbook
-  hosts: node1
-  become: true
-  roles:
-    - monitoring
+# - name: Grafana services part of the playbook
+#   hosts: node1
+#   become: true
+#   roles:
+#     - monitoring

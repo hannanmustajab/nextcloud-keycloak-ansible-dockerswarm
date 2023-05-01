@@ -1,22 +1,9 @@
 ---
-- name: Create or modify docker daemon
-  ansible.builtin.copy:
-    dest: "{{ daemon_file }}"
-    content: |
-      {{ daemon_content }}
-    mode: '0777'
-
-- name: Restart Docker service
-  ansible.builtin.systemd:
-    state: restarted
-    daemon_reload: true
-    name: docker
-
-- name: "Render fluent-bit.conf file using variables"
-  ansible.builtin.template:
-    src: "fluentbit.j2"
-    dest: "/opt/fluent-bit.conf"
-    mode: '0777'
+# - name: "Render fluent-bit.conf file using variables"
+#   ansible.builtin.template:
+#     src: "fluentbit.j2"
+#     dest: "/opt/fluent-bit.conf"
+#     mode: '0777'
 
 - name: Copy the prometheus directory
   ansible.builtin.copy:
