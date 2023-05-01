@@ -1,1 +1,22 @@
 ---
+
+- name: Copy the grafana directory
+  ansible.builtin.copy:
+    src: grafana/
+    dest: /data/grafana
+    mode: "0644"
+
+- name: Copy the grafana stack file
+  ansible.builtin.template:
+    src: monitoring.yml
+    dest: /opt/monitoring.yml
+    mode: "0644"
+
+- name: Deploy grafana stack from a compose file
+  community.docker.docker_stack:
+    state: present
+    name: grafana
+    compose:
+      - /opt/monitoring.yml
+    with_registry_auth: true
+

@@ -67,3 +67,9 @@
   become: true
   roles:
     - logging
+
+- name: Grafana services part of the playbook
+  hosts: node1
+  become: true
+  roles:
+    - monitoring

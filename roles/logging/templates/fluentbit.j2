@@ -3,17 +3,15 @@
    Name          node_exporter_metrics
    Tag           node_metrics
    scrape_interval 2
-
-[FILTER]
-   Name                record_modifier
-   Match               node_metrics
-   Record              node_name ${HOSTNAME}
+   path.procfs   /host/proc
+   path.sysfs    /host/sys
 
 [OUTPUT]
    Name            prometheus_exporter
    Match           node_metrics
    host            0.0.0.0
    port            2020
+   add_label       host {{ inventory_hostname }}
 
 
 # Docker logs (from the provided example)
@@ -49,7 +47,7 @@
    Name  loki
    Match docker_logs
    host  backend_loki
-   labels   job=docker_logs, $service
+   labels   job=docker-logs, host={{ inventory_hostname }}
 
 [SERVICE]
    Flush        1
@@ -58,14 +56,15 @@
 
 [INPUT]
    Name            systemd
-   Tag             host.*
-   Systemd_Filter  _SYSTEMD_UNIT=docker.service
+   Tag             systemd_logs
 
-# [OUTPUT]
-#    Name  loki
-#    Match host.*
-#    host  backend_loki
-#    labels {job="systemd-logs"}
+[OUTPUT]
+   name              loki
+   match             systemd_logs
+   host              backend_loki
+   port              3100
+   labels            job=system-logs, host={{ inventory_hostname }}
+
 [OUTPUT]
    Name   stdout
    Match host.*
