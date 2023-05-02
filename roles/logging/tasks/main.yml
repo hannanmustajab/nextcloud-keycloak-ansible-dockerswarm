@@ -5,6 +5,20 @@
 #     dest: "/opt/fluent-bit.conf"
 #     mode: '0777'
 
+- name: Create directories if they do not exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0777'
+  with_items:
+    - "/data/logs/traefik"
+    - "/data/logs/nextcloud"
+    - "/data/logs/keycloak"
+    - "/data/loki"
+    - "/data/prometheus"
+    - "/data/grafana"
+
+
 - name: Copy the prometheus directory
   ansible.builtin.copy:
     src: prometheus/

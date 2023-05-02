@@ -4,7 +4,7 @@
   ansible.builtin.copy:
     src: grafana/
     dest: /data/grafana
-    mode: "0644"
+    mode: "0777"
 
 - name: Copy the grafana stack file
   ansible.builtin.template:

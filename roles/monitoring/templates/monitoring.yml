@@ -1,9 +1,4 @@
 version: "3.8"
-configs:
-  # fluent-bit-conf:
-  #   file: /opt/fluent-bit.conf
-  loki_config:
-    file: /opt/loki.conf
 
 volumes:
   data: {}
@@ -42,7 +37,7 @@ services:
     environment:
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: test
-      GF_PATHS_PROVISIONING: "/conf/provisioning"
+      # GF_PATHS_PROVISIONING: "/conf/provisioning"
 
       GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
       GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP: "true"
@@ -62,7 +57,13 @@ services:
       - traefik_public
 
     volumes:
+      # - /data/grafana:/var/lib/grafana
+      # - /data/grafana:/conf/provisioning/
+      # - /data/grafana/dashboard_prov:/etc/grafana/provisioning/dashboards
+      # - /data/grafana/dashboards:/var/lib/grafana/dashboards
+      # - /data/grafana/dashboards:/usr/share/grafana/public/dashboards/
       - /data/grafana:/var/lib/grafana
-      - /data/grafana:/conf/provisioning/
-      - /data/grafana/dashboards/application:/usr/share/grafana/public/dashboards/
+      - /data/grafana/datasources:/etc/grafana/provisioning/datasources
+      - /data/grafana/dashboard_prov:/etc/grafana/provisioning/dashboards
+      - /data/grafana/dashboards:/var/lib/grafana/dashboards
  

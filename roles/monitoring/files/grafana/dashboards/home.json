@@ -5,8 +5,7 @@
         "$$hashKey": "object:1058",
         "builtIn": 1,
         "datasource": {
-          "type": "datasource", 
-          
+          "type": "datasource",
           "uid": "grafana"
         },
         "enable": true,
@@ -20,25 +19,15 @@
           "type": "dashboard"
         },
         "type": "dashboard"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
-        },
-        "enable": true,
-        "expr": "changes(node_boot_time_seconds{instance=\"$node\"}[$__rate_interval])",
-        "iconColor": "red",
-        "name": "Reboot"
       }
     ]
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
   "gnetId": 1860,
-  "graphTooltip": 0,
-  "id": 1,
-  "iteration": 1681664787053,
+  "graphTooltip": 1,
+  "id": 18,
+  "iteration": 1683028690976,
   "links": [
     {
       "icon": "external link",
@@ -131,7 +120,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 3,
         "x": 0,
         "y": 1
@@ -216,7 +205,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 3,
         "x": 3,
         "y": 1
@@ -299,7 +288,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 3,
         "x": 6,
         "y": 1
@@ -372,7 +361,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 3,
         "x": 9,
         "y": 1
@@ -468,7 +457,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 3,
         "x": 12,
         "y": 1
@@ -549,7 +538,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 3,
         "x": 15,
         "y": 1
@@ -625,7 +614,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 2,
+        "h": 3,
         "w": 2,
         "x": 18,
         "y": 1
@@ -706,7 +695,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 2,
+        "h": 8,
         "w": 4,
         "x": 20,
         "y": 1
@@ -790,10 +779,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 2,
+        "h": 5,
         "w": 2,
         "x": 18,
-        "y": 3
+        "y": 4
       },
       "id": 23,
       "links": [],
@@ -871,10 +860,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 2,
-        "w": 2,
-        "x": 20,
-        "y": 3
+        "h": 5,
+        "w": 12,
+        "x": 0,
+        "y": 9
       },
       "id": 75,
       "links": [],
@@ -950,10 +939,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 2,
-        "w": 2,
-        "x": 22,
-        "y": 3
+        "h": 5,
+        "w": 12,
+        "x": 12,
+        "y": 9
       },
       "id": 18,
       "links": [],
@@ -998,7 +987,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 5
+        "y": 14
       },
       "id": 263,
       "panels": [],
@@ -1183,7 +1172,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 6
+        "y": 15
       },
       "id": 77,
       "links": [],
@@ -1694,7 +1683,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Avaliable"
+              "options": "Available"
             },
             "properties": [
               {
@@ -1723,7 +1712,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 6
+        "y": 15
       },
       "id": 78,
       "links": [],
@@ -1853,8 +1842,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2228,7 +2216,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 13
+        "y": 22
       },
       "id": 74,
       "links": [],
@@ -2321,8 +2309,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2338,7 +2325,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 13
+        "y": 22
       },
       "id": 152,
       "links": [],
@@ -2382,7 +2369,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 20
+        "y": 29
       },
       "id": 265,
       "panels": [
@@ -4480,7 +4467,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 21
+        "y": 30
       },
       "id": 266,
       "panels": [
@@ -5242,7 +5229,7 @@
               "step": 240
             }
           ],
-          "title": "Memory Commited",
+          "title": "Memory Committed",
           "type": "timeseries"
         },
         {
@@ -6431,7 +6418,7 @@
               "expr": "node_memory_Mapped_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 1,
-              "legendFormat": "Mapped - Used memory in mapped pages files which have been mmaped, such as libraries",
+              "legendFormat": "Mapped - Used memory in mapped pages files which have been mapped, such as libraries",
               "refId": "A",
               "step": 240
             },
@@ -6469,7 +6456,7 @@
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
-              "legendFormat": "ShmemPmdMapped - Ammount of shared (shmem/tmpfs) memory backed by huge pages",
+              "legendFormat": "ShmemPmdMapped - Amount of shared (shmem/tmpfs) memory backed by huge pages",
               "refId": "D",
               "step": 240
             }
@@ -7243,7 +7230,7 @@
               "format": "time_series",
               "hide": false,
               "intervalFactor": 1,
-              "legendFormat": "VmallocChunk - Largest contigious block of vmalloc area which is free",
+              "legendFormat": "VmallocChunk - Largest contiguous block of vmalloc area which is free",
               "refId": "A",
               "step": 240
             },
@@ -10334,7 +10321,7 @@
               "expr": "node_memory_NFS_Unstable_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
               "intervalFactor": 1,
-              "legendFormat": "NFS Unstable - Memory in NFS pages sent to the server, but not yet commited to the storage",
+              "legendFormat": "NFS Unstable - Memory in NFS pages sent to the server, but not yet committed to the storage",
               "refId": "A",
               "step": 240
             }
@@ -10365,7 +10352,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 22
+        "y": 31
       },
       "id": 267,
       "panels": [
@@ -11435,7 +11422,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 32
       },
       "id": 293,
       "panels": [
@@ -11584,7 +11571,7 @@
               "step": 240
             }
           ],
-          "title": "Time Syncronized Drift",
+          "title": "Time Synchronized Drift",
           "type": "timeseries"
         },
         {
@@ -11819,7 +11806,7 @@
               "step": 240
             }
           ],
-          "title": "Time Syncronized Status",
+          "title": "Time Synchronized Status",
           "type": "timeseries"
         },
         {
@@ -11961,7 +11948,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 24
+        "y": 33
       },
       "id": 312,
       "panels": [
@@ -12863,7 +12850,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 25
+        "y": 34
       },
       "id": 269,
       "panels": [
@@ -13713,7 +13700,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 26
+        "y": 35
       },
       "id": 304,
       "panels": [
@@ -14167,7 +14154,7 @@
       "type": "row"
     },
     {
-      "collapsed": true,
+      "collapsed": false,
       "datasource": {
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
@@ -14176,344 +14163,10 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 27
+        "y": 36
       },
       "id": 296,
-      "panels": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "counter",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 20,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "links": [],
-              "mappings": [],
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "short"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 12,
-            "x": 0,
-            "y": 30
-          },
-          "id": 297,
-          "links": [],
-          "options": {
-            "legend": {
-              "calcs": [
-                "mean",
-                "lastNotNull",
-                "max",
-                "min"
-              ],
-              "displayMode": "table",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "pluginVersion": "9.2.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
-              "expr": "irate(node_systemd_socket_accepted_connections_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "{{ name }} Connections",
-              "refId": "A",
-              "step": 240
-            }
-          ],
-          "title": "Systemd Sockets",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "counter",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 20,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "normal"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "links": [],
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "short"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Failed"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#F2495C",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Inactive"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#FF9830",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Active"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#73BF69",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Deactivating"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#FFCB7D",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Activating"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#C8F2C2",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 12,
-            "x": 12,
-            "y": 30
-          },
-          "id": 298,
-          "links": [],
-          "options": {
-            "legend": {
-              "calcs": [
-                "mean",
-                "lastNotNull",
-                "max",
-                "min"
-              ],
-              "displayMode": "table",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "pluginVersion": "9.2.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
-              "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"activating\"}",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "Activating",
-              "refId": "A",
-              "step": 240
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
-              "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"active\"}",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "Active",
-              "refId": "B",
-              "step": 240
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
-              "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"deactivating\"}",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "Deactivating",
-              "refId": "C",
-              "step": 240
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
-              "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"failed\"}",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "Failed",
-              "refId": "D",
-              "step": 240
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
-              "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"inactive\"}",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "Inactive",
-              "refId": "E",
-              "step": 240
-            }
-          ],
-          "title": "Systemd Units State",
-          "type": "timeseries"
-        }
-      ],
+      "panels": [],
       "targets": [
         {
           "datasource": {
@@ -14527,6 +14180,335 @@
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "counter",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 37
+      },
+      "id": 297,
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "irate(node_systemd_socket_accepted_connections_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{ name }} Connections",
+          "refId": "A",
+          "step": 240
+        }
+      ],
+      "title": "Systemd Sockets",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "counter",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Failed"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#F2495C",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Inactive"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#FF9830",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Active"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#73BF69",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Deactivating"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#FFCB7D",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Activating"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#C8F2C2",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 37
+      },
+      "id": 298,
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"activating\"}",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Activating",
+          "refId": "A",
+          "step": 240
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"active\"}",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Active",
+          "refId": "B",
+          "step": 240
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"deactivating\"}",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Deactivating",
+          "refId": "C",
+          "step": 240
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"failed\"}",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Failed",
+          "refId": "D",
+          "step": 240
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"inactive\"}",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Inactive",
+          "refId": "E",
+          "step": 240
+        }
+      ],
+      "title": "Systemd Units State",
+      "type": "timeseries"
+    },
+    {
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
@@ -14536,7 +14518,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 28
+        "y": 47
       },
       "id": 270,
       "panels": [
@@ -14552,8 +14534,6 @@
                 "mode": "palette-classic"
               },
               "custom": {
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
                 "axisLabel": "IO read (-) / write (+)",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
@@ -14916,7 +14896,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 31
+            "y": 38
           },
           "id": 9,
           "links": [],
@@ -14977,8 +14957,6 @@
                 "mode": "palette-classic"
               },
               "custom": {
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
                 "axisLabel": "bytes read (-) / write (+)",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
@@ -15341,7 +15319,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 31
+            "y": 38
           },
           "id": 33,
           "links": [],
@@ -15768,7 +15746,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 41
+            "y": 48
           },
           "id": 37,
           "links": [],
@@ -16186,7 +16164,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 41
+            "y": 48
           },
           "id": 35,
           "links": [],
@@ -16601,7 +16579,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 51
+            "y": 58
           },
           "id": 133,
           "links": [],
@@ -17015,7 +16993,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 51
+            "y": 58
           },
           "id": 36,
           "links": [],
@@ -17431,7 +17409,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 61
+            "y": 68
           },
           "id": 34,
           "links": [],
@@ -17834,7 +17812,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 61
+            "y": 68
           },
           "id": 301,
           "links": [],
@@ -17908,7 +17886,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 48
       },
       "id": 271,
       "panels": [
@@ -18522,7 +18500,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 30
+        "y": 49
       },
       "id": 272,
       "panels": [
@@ -18661,7 +18639,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 33
+            "y": 31
           },
           "id": 60,
           "links": [],
@@ -18790,7 +18768,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 33
+            "y": 31
           },
           "id": 142,
           "links": [],
@@ -18917,7 +18895,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 43
+            "y": 41
           },
           "id": 143,
           "links": [],
@@ -19044,7 +19022,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 43
+            "y": 41
           },
           "id": 141,
           "links": [],
@@ -19171,7 +19149,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 53
+            "y": 51
           },
           "id": 146,
           "links": [],
@@ -19286,7 +19264,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 53
+            "y": 51
           },
           "id": 144,
           "links": [],
@@ -19413,7 +19391,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 63
+            "y": 61
           },
           "id": 145,
           "links": [],
@@ -19516,7 +19494,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 63
+            "y": 61
           },
           "id": 231,
           "links": [],
@@ -19631,7 +19609,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 73
+            "y": 71
           },
           "id": 232,
           "links": [],
@@ -19754,7 +19732,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 73
+            "y": 71
           },
           "id": 61,
           "links": [],
@@ -19868,7 +19846,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 83
+            "y": 81
           },
           "id": 230,
           "links": [],
@@ -19971,7 +19949,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 83
+            "y": 81
           },
           "id": 288,
           "links": [],
@@ -20074,7 +20052,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 93
+            "y": 91
           },
           "id": 280,
           "links": [],
@@ -20177,7 +20155,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 93
+            "y": 91
           },
           "id": 289,
           "links": [],
@@ -20291,7 +20269,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 103
+            "y": 101
           },
           "id": 290,
           "links": [],
@@ -20407,7 +20385,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 103
+            "y": 101
           },
           "id": 310,
           "links": [],
@@ -20510,7 +20488,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 113
+            "y": 111
           },
           "id": 309,
           "links": [],
@@ -20584,7 +20562,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 31
+        "y": 50
       },
       "id": 273,
       "panels": [
@@ -20651,7 +20629,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 48
+            "y": 32
           },
           "id": 63,
           "links": [],
@@ -20737,7 +20715,7 @@
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
-              "legendFormat": "TCP_tw - Sockets wating close",
+              "legendFormat": "TCP_tw - Sockets waiting close",
               "refId": "E",
               "step": 240
             }
@@ -20808,7 +20786,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 48
+            "y": 32
           },
           "id": 124,
           "links": [],
@@ -20938,7 +20916,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 58
+            "y": 42
           },
           "id": 125,
           "links": [],
@@ -21055,7 +21033,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 58
+            "y": 42
           },
           "id": 220,
           "links": [],
@@ -21183,7 +21161,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 68
+            "y": 52
           },
           "id": 126,
           "links": [],
@@ -21247,7 +21225,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 32
+        "y": 51
       },
       "id": 274,
       "panels": [
@@ -21264,7 +21242,7 @@
               "custom": {
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
-                "axisLabel": "octects out (-) / in (+)",
+                "axisLabel": "octets out (-) / in (+)",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
                 "drawStyle": "line",
@@ -21326,7 +21304,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 49
+            "y": 33
           },
           "id": 221,
           "links": [],
@@ -21442,7 +21420,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 49
+            "y": 33
           },
           "id": 81,
           "links": [],
@@ -21558,7 +21536,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 59
+            "y": 43
           },
           "id": 115,
           "links": [],
@@ -21686,7 +21664,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 59
+            "y": 43
           },
           "id": 50,
           "links": [],
@@ -21813,7 +21791,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 69
+            "y": 53
           },
           "id": 55,
           "links": [],
@@ -21928,7 +21906,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 69
+            "y": 53
           },
           "id": 109,
           "links": [],
@@ -22104,7 +22082,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 79
+            "y": 63
           },
           "id": 299,
           "links": [],
@@ -22222,7 +22200,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 79
+            "y": 63
           },
           "id": 104,
           "links": [],
@@ -22403,7 +22381,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 89
+            "y": 73
           },
           "id": 85,
           "links": [],
@@ -22450,7 +22428,7 @@
               "hide": false,
               "interval": "",
               "intervalFactor": 1,
-              "legendFormat": "MaxConn - Limit on the total number of TCP connections the entity can support (Dinamic is \"-1\")",
+              "legendFormat": "MaxConn - Limit on the total number of TCP connections the entity can support (Dynamic is \"-1\")",
               "refId": "B",
               "step": 240
             }
@@ -22534,7 +22512,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 89
+            "y": 73
           },
           "id": 91,
           "links": [],
@@ -22666,7 +22644,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 99
+            "y": 83
           },
           "id": 82,
           "links": [],
@@ -22718,6 +22696,156 @@
           ],
           "title": "TCP Direct Transition",
           "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "description": "Enable with --collector.tcpstat argument on node-exporter",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "connections",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "links": [],
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 12,
+            "y": 83
+          },
+          "id": 320,
+          "links": [],
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "9.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "editorMode": "code",
+              "expr": "node_tcp_connection_states{state=\"established\",instance=\"$node\",job=\"$job\"}",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "established - TCP sockets in established state",
+              "range": true,
+              "refId": "A",
+              "step": 240
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "editorMode": "code",
+              "expr": "node_tcp_connection_states{state=\"fin_wait2\",instance=\"$node\",job=\"$job\"}",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "fin_wait2 - TCP sockets in fin_wait2 state",
+              "range": true,
+              "refId": "B",
+              "step": 240
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "editorMode": "code",
+              "expr": "node_tcp_connection_states{state=\"listen\",instance=\"$node\",job=\"$job\"}",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "listen - TCP sockets in listen state",
+              "range": true,
+              "refId": "C",
+              "step": 240
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "editorMode": "code",
+              "expr": "node_tcp_connection_states{state=\"time_wait\",instance=\"$node\",job=\"$job\"}",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "time_wait - TCP sockets in time_wait state",
+              "range": true,
+              "refId": "D",
+              "step": 240
+            }
+          ],
+          "title": "TCP Stat",
+          "type": "timeseries"
         }
       ],
       "targets": [
@@ -22742,7 +22870,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 33
+        "y": 52
       },
       "id": 279,
       "panels": [
@@ -23005,7 +23133,8 @@
       "type": "row"
     }
   ],
-  "refresh": false,
+  "refresh": "",
+  "revision": 1,
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
@@ -23064,7 +23193,7 @@
       {
         "current": {
           "isNone": true,
-          "selected": false,
+          "selected": true,
           "text": "None",
           "value": ""
         },
@@ -23081,7 +23210,7 @@
         "options": [],
         "query": {
           "query": "label_values(node_uname_info{job=\"$job\"}, instance)",
-          "refId": "Prometheus-node-Variable-Query"
+          "refId": "StandardVariableQuery"
         },
         "refresh": 1,
         "regex": "",
@@ -23147,6 +23276,6 @@
   "timezone": "browser",
   "title": "Node Exporter Full",
   "uid": "rYdddlPWk",
-  "version": 1,
+  "version": 6,
   "weekStart": ""
 }

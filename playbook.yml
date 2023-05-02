@@ -14,7 +14,6 @@
     - docker
     - docker_swarm
     
-
 # Add a common part where daemon is updated on both the nodes.
 
 
@@ -73,8 +72,8 @@
   roles:
     - logging
 
-# - name: Grafana services part of the playbook
-#   hosts: node1
-#   become: true
-#   roles:
-#     - monitoring
+- name: Grafana services part of the playbook
+  hosts: node1
+  become: true
+  roles:
+    - monitoring
