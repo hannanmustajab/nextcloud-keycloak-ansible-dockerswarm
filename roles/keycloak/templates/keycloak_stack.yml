@@ -36,21 +36,20 @@ services:
       - /data/logs/keycloak/keycloak.log:/logs/keycloak.log
     # command: start-dev 
     networks:
-       overlay_swarm_net:
-          ipv4_address: 192.168.60.5
-       traefik_public:
+      #  overlay_swarm_net:
+      #     ipv4_address: 192.168.60.5
+      traefik_public:
     depends_on:
-      - db
       - postgres_db
     
 
 
 networks:
-  overlay_swarm_net:
-    name: overlay_swarm_net
-    external: true
+  # overlay_swarm_net:
+  #   name: overlay_swarm_net
+  #   external: true
 
   traefik_public:
-    driver: overlay
+    external: true    
     name: traefik_public
     

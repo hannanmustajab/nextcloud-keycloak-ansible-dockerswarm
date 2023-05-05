@@ -9,9 +9,9 @@ volumes:
   data: {}
 
 networks:
-  overlay_swarm_net:
-    name: overlay_swarm_net
-    external: true
+  # overlay_swarm_net:
+  #   name: overlay_swarm_net
+  #   external: true
 
   traefik_public:
     external: true
@@ -29,7 +29,7 @@ services:
     volumes:
       - /data/loki:/loki
     networks:
-      - overlay_swarm_net
+      - traefik_public
     deploy:
       placement:
         constraints: [node.hostname == node1]
@@ -44,7 +44,7 @@ services:
     #   - source: fluent-bit-conf
     #     target: /fluent-bit/etc/fluent-bit.conf
     networks:
-      - overlay_swarm_net
+      - traefik_public
     volumes:
       - /opt/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
       - /var/run/docker.sock:/var/run/docker.sock
@@ -70,7 +70,7 @@ services:
     # ports:
     #   - "9090:9090"
     networks:
-      - overlay_swarm_net
+      # - overlay_swarm_net
       - traefik_public
     volumes:
       - /data/prometheus:/app.cfg
@@ -90,7 +90,8 @@ services:
       mode: global
     restart: always
     networks:
-      - overlay_swarm_net
+      # - overlay_swarm_net
+      - traefik_public
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
@@ -157,7 +158,7 @@ services:
     image: gcr.io/cadvisor/cadvisor-arm64:0.99-porterdavid
     command: ["start", "--privileged"]
     networks:
-      - overlay_swarm_net
+      # - overlay_swarm_net
       - traefik_public
     privileged: true
     deploy:

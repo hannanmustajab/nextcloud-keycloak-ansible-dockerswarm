@@ -62,7 +62,7 @@ services:
 
 
     networks:
-      - overlay_swarm_net
+      # - overlay_swarm_net
       - traefik_public
    
     deploy:
@@ -73,9 +73,9 @@ services:
           - node.role == manager
 
 networks:
-  overlay_swarm_net:
-    name: overlay_swarm_net
-    external: true
+  # overlay_swarm_net:
+  #   name: overlay_swarm_net
+  #   external: true
   
   traefik_public:
     external: true

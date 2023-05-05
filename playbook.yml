@@ -9,9 +9,9 @@
   hosts: all
   become: true
   roles:
-    - logging_common
     - nfs
     - docker
+    - logging_common
     - docker_swarm
     
 # Add a common part where daemon is updated on both the nodes.
