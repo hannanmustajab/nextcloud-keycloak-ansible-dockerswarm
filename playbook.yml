@@ -1,9 +1,9 @@
 ---
-# - name: Install/Update prerequisites.
-#   hosts: all
-#   become: true
-#   roles:
-#     - role: update
+- name: Install/Update prerequisites.
+  hosts: all
+  become: true
+  roles:
+    - role: update
 
 - name: Common part of the playbook for both nodes
   hosts: all
