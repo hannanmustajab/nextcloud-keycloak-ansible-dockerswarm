@@ -4,10 +4,6 @@ volumes:
   data: {}
 
 networks:
-  # overlay_swarm_net:
-  #   name: overlay_swarm_net
-  #   external: true
-
   traefik_public:
     external: true
 
@@ -44,20 +40,14 @@ services:
       GF_AUTH_GENERIC_OAUTH_AUTH_URL: "https://auth.localdomain/realms/vcc/protocol/openid-connect/auth"
       GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "https://auth.localdomain/realms/vcc/protocol/openid-connect/token"    
       GF_AUTH_GENERIC_OAUTH_CLIENT_ID: "grafana"
-      GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: "nLMC8I6MLnfTnAeK23fFAWCiYpSrERdg"
+      GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: '{{ GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET }}'
       GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: "contains(roles[*], 'Admin') && 'Admin' || contains(roles[*], 'Editor') && 'Editor' || 'Viewer'"
       GF_SERVER_DOMAIN: mon.localdomain
       GF_SERVER_ROOT_URL: https://mon.localdomain
     networks:
-      # - overlay_swarm_net
       - traefik_public
 
     volumes:
-      # - /data/grafana:/var/lib/grafana
-      # - /data/grafana:/conf/provisioning/
-      # - /data/grafana/dashboard_prov:/etc/grafana/provisioning/dashboards
-      # - /data/grafana/dashboards:/var/lib/grafana/dashboards
-      # - /data/grafana/dashboards:/usr/share/grafana/public/dashboards/
       - /data/grafana:/var/lib/grafana
       - /data/grafana/datasources:/etc/grafana/provisioning/datasources
       - /data/grafana/dashboard_prov:/etc/grafana/provisioning/dashboards
