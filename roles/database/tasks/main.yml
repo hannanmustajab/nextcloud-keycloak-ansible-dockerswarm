@@ -5,30 +5,15 @@
     dest: /opt/postgres.yml
     mode: "0644"
 
-- name: Copy the sql file for keycloak stack file
-  ansible.builtin.template:
-    src: keycloak.sql
-    dest: /opt/keycloak.sql
-    mode: "0644"
-
-- name: Copy the sql file for nextcloud  file
-  ansible.builtin.template:
-    src: nextcloud.sql
-    dest: /opt/nextcloud.sql
-    mode: "0644"
-  
-
 - name: Delete /data/postgres directory to store nextcloud data.
   ansible.builtin.file:
     path: /data/postgresql
     state: absent
 
-
 - name: Create /data/postgres directory to store SQL data.
   ansible.builtin.file:
     path: /data/postgresql
     state: directory
-    
 
 - name: Deploy gitea stack from a compose file
   community.docker.docker_stack:

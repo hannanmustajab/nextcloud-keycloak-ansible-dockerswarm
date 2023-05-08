@@ -1,0 +1,33 @@
+---
+- name: Include secrets file
+  include_vars:
+    file: "secrets.yml"
+    name: secrets
+
+- name: Reload Docker daemon
+  systemd:
+    name: docker
+    state: reloaded
+    daemon_reload: yes
+
+- name: Wait for registry service to be up
+  ansible.builtin.wait_for:
+    port: 5000
+    state: started
+    #host: "{{ registry_hostmanager }}"
+  timeout: 300
+
+# try to understand better the login part
+- name: Login to the registry
+  community.docker.docker_login:
+    username: "{{ secrets.registry_username }}"
+    password: "{{ secrets.registry_password }}"
+    registry_url: "http://{{ registry_url }}:{{ registry_port }}"
+  register: docker_registry_login
+
+#- name: Login to the registry-cache
+#  community.docker.docker_login:
+#    username: "{{ secrets.registry_username }}"
+#    password: "{{ secrets.registry_password }}"
+#    registry_url: "http://{{ registry_url }}:{{ registry-cache_port }}"
+#  #register: docker_registry-cache_login

@@ -1,7 +1,5 @@
 version: "3.8"
 configs:
-  # fluent-bit-conf:
-  #   file: /opt/fluent-bit.conf
   loki_config:
     file: /opt/loki.conf
 
@@ -20,8 +18,6 @@ services:
 
   loki:
     image: grafana/loki:2.7.3
-    # ports:
-    #   - 3100:3100
     configs:
       - source: loki_config
         target: /etc/loki/loki-config.yaml
@@ -40,13 +36,13 @@ services:
       mode: global
     environment:
       - LOKI_URL=http://loki:3100/loki/api/v1/push
-    # configs:
-    #   - source: fluent-bit-conf
-    #     target: /fluent-bit/etc/fluent-bit.conf
     networks:
       - traefik_public
     volumes:
       - /opt/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+      - /opt/parser.conf:/parser.conf
+      - /data/logs/keycloak/keycloak.log:/keycloak.log
+      - /data/logs/nextcloud/nextcloud.log:/nextcloud.log
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/containers:/var/lib/docker/containers
       - /sys/fs/cgroup/:/sys/fs/cgroup/
@@ -67,10 +63,7 @@ services:
       replicas: 1
       placement:
         constraints: [node.hostname == node1]
-    # ports:
-    #   - "9090:9090"
     networks:
-      # - overlay_swarm_net
       - traefik_public
     volumes:
       - /data/prometheus:/app.cfg
@@ -90,7 +83,6 @@ services:
       mode: global
     restart: always
     networks:
-      # - overlay_swarm_net
       - traefik_public
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -105,68 +97,16 @@ services:
       - '--collector.filesystem.ignored-mount-points="^(/rootfs|/host|)/(sys|proc|dev|host|etc)($$|/)"'
       - '--collector.filesystem.ignored-fs-types="^(sys|proc|auto|cgroup|devpts|ns|au|fuse\.lxc|mqueue)(fs|)$$"'
 
-  # grafana:
-  #   depends_on:
-  #     - loki
-  #   image: grafana/grafana:8.5.0
-  #   deploy:
-  #     labels:
-  #       - "traefik.enable=true"
-  #       - "traefik.docker.network=traefik_public"
-  #       - "traefik.http.routers.grafana.entrypoints=websecure"
-  #       - "traefik.http.routers.grafana.rule=Host(`mon.localdomain`)"
-  #       - "traefik.http.routers.grafana.service=grafana_service"
-  #       - "traefik.http.routers.grafana.tls=true"
-  #       - "traefik.http.routers.grafana.middlewares=grafana_proto"
-  #       - "traefik.http.services.grafana_service.loadbalancer.server.port=3000"
-  #       - "traefik.http.middlewares.grafana_proto.headers.customrequestheaders.X-Forwarded-Proto=https"
-  #     mode: replicated
-  #     replicas: 1
-  #   extra_hosts:
-  #     - "auth.localdomain:192.168.60.5"
-  #   # ports:
-  #   #   - "3000:3000"
-  #   environment:
-  #     GF_SECURITY_ADMIN_USER: admin
-  #     GF_SECURITY_ADMIN_PASSWORD: test
-  #     GF_PATHS_PROVISIONING: "/conf/provisioning"
-
-  #     GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
-  #     GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP: "true"
-  #     GF_AUTH_GENERIC_OAUTH_SCOPES: openid email profile
-  #     GF_AUTH_GENERIC_OAUTH_NAME: "Keycloak"
-  #     GF_AUTH_GENERIC_OAUTH_TLS_SKIP_VERIFY_INSECURE: "true"
-  #     GF_AUTH_GENERIC_OAUTH_API_URL: "http://192.168.60.5:8080/realms/vcc/protocol/openid-connect/userinfo"
-  #     GF_AUTH_GENERIC_OAUTH_AUTH_URL: "https://auth.localdomain/realms/vcc/protocol/openid-connect/auth"
-  #     GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "http://192.168.60.5:8080/realms/vcc/protocol/openid-connect/token"    
-  #     GF_AUTH_GENERIC_OAUTH_CLIENT_ID: "grafana"
-  #     GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: "nLMC8I6MLnfTnAeK23fFAWCiYpSrERdg"
-  #     GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: "contains(roles[*], 'Admin') && 'Admin' || contains(roles[*], 'Editor') && 'Editor' || 'Viewer'"
-  #     GF_SERVER_DOMAIN: mon.localdomain
-  #     GF_SERVER_ROOT_URL: https://mon.localdomain
-  #   networks:
-  #     - overlay_swarm_net
-  #     - traefik_public
-
-  #   volumes:
-  #     - /data/grafana:/var/lib/grafana
-  #     - /data/grafana:/conf/provisioning/
-  #     - /data/grafana/dashboards/application:/usr/share/grafana/public/dashboards/
- 
-
   cadvisor:
     image: gcr.io/cadvisor/cadvisor-arm64:0.99-porterdavid
     command: ["start", "--privileged"]
     networks:
-      # - overlay_swarm_net
       - traefik_public
     privileged: true
     deploy:
       mode: global
       labels:
         prometheus-job: cadvisor
-    # ports:
-    #   - "9095:8080"
     devices:
       - /dev/kmsg:/dev/kmsg
     volumes:

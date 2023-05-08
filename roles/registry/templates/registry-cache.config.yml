@@ -1,0 +1,26 @@
+version: 0.1
+name: registry_cache_configuration
+log:
+  fields:
+    service: registry-cache
+storage:
+  filesystem:
+    rootdirectory: /var/lib/registry-cache
+  delete:
+    enabled: true
+http:
+  addr: :5001
+  #debug:
+  #  addr: :5001
+#proxy:
+#  remote_url: https://registry-1.docker.io
+health:
+  storagedriver:
+    enabled: true
+    interval: 10s
+    threshold: 3
+#mirrors:
+#  - http://127.0.0.1:5001
+    
+prometheus:
+  enabled: true

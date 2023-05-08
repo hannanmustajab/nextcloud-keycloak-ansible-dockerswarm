@@ -13,9 +13,6 @@
     - docker
     - logging_common
     - docker_swarm
-    
-# Add a common part where daemon is updated on both the nodes.
-
 
 - name: Setup local docker registry for custom images
   hosts: node1

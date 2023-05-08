@@ -14,7 +14,6 @@ services:
       - "/opt/keycloak.sql:/docker-entrypoint-initdb.d/keycloak.sql"
       - "/opt/nextcloud.sql:/docker-entrypoint-initdb.d/nextcloud.sql"
     networks:
-      # - overlay_swarm_net
       - traefik_public
       
 
@@ -23,18 +22,7 @@ volumes:
     driver: local
 
 networks:
-
-  # overlay_swarm_net:
-  #   name: overlay_swarm_net
-  #   external: true
   traefik_public:
     driver: overlay
     name: traefik_public
     attachable: true
-
-  # overlay_swarm_net:
-  #   name: overlay_swarm_net
-  #   ipam:
-  #     driver: default
-  #     config:
-  #       - subnet: "192.168.60.0/24"
