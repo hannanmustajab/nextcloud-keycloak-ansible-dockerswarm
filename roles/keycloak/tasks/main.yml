@@ -38,8 +38,8 @@
     - "/data/logs/keycloak/keycloak.log"
 
 - name: "Render realm.json file using variables"
-  ansible.builtin.copy:
-    src: "keycloak/realm.j2"
+  ansible.builtin.template:
+    src: "realm.j2"
     dest: "/opt/keycloak/realm.json"
     mode: '0777'
 

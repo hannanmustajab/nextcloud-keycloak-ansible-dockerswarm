@@ -18,7 +18,7 @@
     src: "fluentbit.j2"
     dest: "/opt/fluent-bit.conf"
     mode: '0777'
-  
+
 - name: "Copy fluentbit parsers"
   ansible.builtin.template:
     src: "parser.conf"
@@ -36,3 +36,4 @@
     src: nextcloud.sql
     dest: /opt/nextcloud.sql
     mode: "0644"
+
