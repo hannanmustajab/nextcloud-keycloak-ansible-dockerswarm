@@ -5,8 +5,8 @@ services:
     image: postgres:15.1
     restart: always
     environment:
-      - POSTGRES_USER=vcc-test
-      - POSTGRES_PASSWORD=vcc-test
+      - POSTGRES_USER= '{{ POSTGRES_USER }}'
+      - POSTGRES_PASSWORD= '{{ POSTGRES_PASSWORD }}'
     ports:
       - "5432:5432"
     volumes:

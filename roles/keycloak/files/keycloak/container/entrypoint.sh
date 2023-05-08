@@ -10,4 +10,4 @@ until [ $res -eq 52 ]; do
 done
 echo 'Postgres alive'
 
-/opt/keycloak/bin/kc.sh start-dev --proxy=edge --hostname-url=https://auth.localdomain -Dkeycloak.profile.feature.upload_scripts=enabled -Dkeycloak.migration.strategy=OVERWRITE_EXISTING --import-realm --log-level=trace --log=console,file --log-file=/logs/keycloak.log
+/opt/keycloak/bin/kc.sh start-dev --proxy=edge --hostname-url=https://auth.localdomain -Dkeycloak.profile.feature.upload_scripts=enabled -Dkeycloak.migration.strategy=OVERWRITE_EXISTING --import-realm --log-level=info --log=console,file --log-file=/logs/keycloak.log

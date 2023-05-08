@@ -32,13 +32,9 @@ services:
       replicas: 1
     extra_hosts:
       - "auth.localdomain:192.168.50.10"
-    # ports:
-    #   - "3000:3000"
     environment:
-      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_USER: '{{ GF_SECURITY_ADMIN_USER }}'
       GF_SECURITY_ADMIN_PASSWORD: test
-      # GF_PATHS_PROVISIONING: "/conf/provisioning"
-
       GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
       GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP: "true"
       GF_AUTH_GENERIC_OAUTH_SCOPES: openid email profile

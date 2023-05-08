@@ -1,9 +1,9 @@
 ---
-- name: Install/Update prerequisites.
-  hosts: all
-  become: true
-  roles:
-    - role: update
+# - name: Install/Update prerequisites.
+#   hosts: all
+#   become: true
+#   roles:
+#     - role: update
 
 - name: Common part of the playbook for both nodes
   hosts: all
@@ -38,6 +38,8 @@
 - name: Database Services
   hosts: node1
   become: true
+  vars_files:
+    - "{{ playbook_dir }}/secrets.yml"
   roles:
     - role: database
 
@@ -45,6 +47,8 @@
 - name: Keycloak Services
   hosts: node1
   become: true
+  vars_files:
+    - "{{ playbook_dir }}/secrets.yml"
   roles:
     - role: keycloak
 
@@ -52,6 +56,8 @@
 - name: Nextcloud Services
   hosts: node1
   become: true
+  vars_files:
+    - "{{ playbook_dir }}/secrets.yml"
   roles:
     - role: nextcloud
 
@@ -72,5 +78,7 @@
 - name: Grafana services part of the playbook
   hosts: node1
   become: true
+  vars_files:
+    - "{{ playbook_dir }}/secrets.yml"
   roles:
     - monitoring

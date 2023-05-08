@@ -1,6 +1,5 @@
 version: '3'
 
-
 services: 
   keycloak:
     image:  127.0.0.1:5000/keycloak
@@ -19,25 +18,21 @@ services:
         - "traefik.http.middlewares.keycloak_proto.headers.customrequestheaders.X-Forwarded-Proto=https"
     restart: on-failure
     environment:
-      - KC_PROXY_ADDRESS_FORWARDING="true"
-      - KC_HOSTNAME_STRICT= "false"
-      # - KC_HOSTNAME=auth.localdomain
-      - KC_PROXY= edge
-      - KC_HTTP_ENABLED= "true"
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
-      - KC_PROXY=edge
-      - KC_DB=postgres
-      - KC_DB_URL=jdbc:postgresql://db/keycloak
-      - KC_DB_PASSWORD=keycloak
-      - KC_DB_USERNAME=keycloak
+      KC_PROXY_ADDRESS_FORWARDING: "true"
+      KC_HOSTNAME_STRICT: "false"
+      KC_PROXY: edge
+      KC_HTTP_ENABLED: "true"
+      KEYCLOAK_ADMIN: '{{ KEYCLOAK_ADMIN }}'
+      KEYCLOAK_ADMIN_PASSWORD: '{{ KEYCLOAK_ADMIN_PASSWORD }}'
+      KC_PROXY: edge
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://db/keycloak
+      KC_DB_PASSWORD: '{{ KC_DB_PASSWORD }}'
+      KC_DB_USERNAME: '{{ KC_DB_USERNAME }}'
     volumes:
       - /opt/keycloak/realm.json:/opt/keycloak/data/import/realm.json
       - /data/logs/keycloak/keycloak.log:/logs/keycloak.log
-    # command: start-dev 
     networks:
-      #  overlay_swarm_net:
-      #     ipv4_address: 192.168.60.5
       traefik_public:
     depends_on:
       - postgres_db
@@ -45,10 +40,6 @@ services:
 
 
 networks:
-  # overlay_swarm_net:
-  #   name: overlay_swarm_net
-  #   external: true
-
   traefik_public:
     external: true    
     name: traefik_public

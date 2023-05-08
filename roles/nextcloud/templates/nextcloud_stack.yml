@@ -36,22 +36,21 @@ services:
       - /data/logs/nextcloud/nextcloud.log:/nextcloud.log
       - /data/lock:/var/lock
     environment:
-      - POSTGRES_DB=nextcloud
-      - POSTGRES_USER=nextcloud
-      - POSTGRES_PASSWORD=nextcloud
-      - POSTGRES_HOST=db
-      - NEXTCLOUD_ADMIN_USER=admin
-      - NEXTCLOUD_ADMIN_PASSWORD=admin
-      - NEXTCLOUD_TRUSTED_DOMAINS=cloud.localdomain
-      - OIDC_CLIENT_ID=nextcloud
-      - OIDC_PROVIDER_URL=https://auth.localdomain/realms/vcc/
-      - OIDC_LOGOUT_URL=https://cloud.localdomain/apps/oidc_login/oidc
-      - OIDC_CLIENT_SECRET=nLMC8I6MLnfTnAeK23fFWYNiYpSrERmn
+      POSTGRES_DB: '{{ POSTGRES_DB }}'
+      POSTGRES_USER: '{{ POSTGRES_USER_KC }}'
+      POSTGRES_PASSWORD: '{{ POSTGRES_PASSWORD_KC }}'
+      POSTGRES_HOST: db
+      NEXTCLOUD_ADMIN_USER: '{{ NEXTCLOUD_ADMIN_USER }}'
+      NEXTCLOUD_ADMIN_PASSWORD: '{{ NEXTCLOUD_ADMIN_PASSWORD }}'
+      NEXTCLOUD_TRUSTED_DOMAINS: cloud.localdomain
+      OIDC_CLIENT_ID: nextcloud
+      OIDC_PROVIDER_URL: https://auth.localdomain/realms/vcc/
+      OIDC_LOGOUT_URL: https://cloud.localdomain/apps/oidc_login/oidc
+      OIDC_CLIENT_SECRET: '{{ OIDC_CLIENT_SECRET }}'
       
 
 
     networks:
-      # overlay_swarm_net:
       traefik_public:
 
     depends_on:
