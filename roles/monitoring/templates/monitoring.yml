@@ -12,7 +12,7 @@ services:
   grafana:
     depends_on:
       - loki
-    image: grafana/grafana:8.5.0
+    image: grafana/grafana:9.3.1
     deploy:
       labels:
         - "traefik.enable=true"
@@ -30,7 +30,7 @@ services:
       - "auth.localdomain:192.168.50.10"
     environment:
       GF_SECURITY_ADMIN_USER: '{{ GF_SECURITY_ADMIN_USER }}'
-      GF_SECURITY_ADMIN_PASSWORD: test
+      GF_SECURITY_ADMIN_PASSWORD: '{{ GF_SECURITY_ADMIN_PASSWORD }}'
       GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
       GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP: "true"
       GF_AUTH_GENERIC_OAUTH_SCOPES: openid email profile

@@ -1,0 +1,3 @@
+---
+registry_cache_port: 5001
+registry_cache: /data/docker-registry-cache

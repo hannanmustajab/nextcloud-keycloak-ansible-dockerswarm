@@ -1,7 +1,6 @@
-FROM alpine:3.14
+FROM alpine/openssl:latest
 
-RUN apk update && apk add \
-    openssl
+RUN apk update
 
 ADD entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod a+x /usr/local/bin/entrypoint.sh

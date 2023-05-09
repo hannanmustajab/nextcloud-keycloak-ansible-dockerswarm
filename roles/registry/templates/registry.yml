@@ -1,15 +1,15 @@
 version: "3.8"
 services:
   registry:
-    image: registry:2
-    restart: always
+    image: distribution/distribution:2.8.1
+    #restart: always
     deploy:
       mode: replicated
       replicas: 1
     ports:
-    - 5000:5000
-    - 127.0.0.1:5001:5001
+      - 5000:5000
+      #- 127.0.0.1:5001:5001
     volumes:
-    - /data/docker-registry:/var/lib/registry
-    - /data/registry.config.yml:/etc/docker/registry/config.yml:ro
-    - /data/registry.htpasswd:/etc/registry.htpasswd:ro
+      - /data/docker-registry:/var/lib/registry
+      - /data/docker-registry/registry.config.yml:/etc/docker/registry/config.yml:ro
+      - /data/registry.htpasswd:/etc/registry.htpasswd:ro

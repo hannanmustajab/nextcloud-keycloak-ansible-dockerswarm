@@ -1,9 +1,10 @@
 ---
 registry_image: distribution/distribution:2.8.1
 registry_port: 5000
-registry_cache_port: 5001
-registry_volume: /data/docker-registry
-registry_cache: /data/docker-registry-cache
+registry: /data/docker-registry
 registry_service: registry
 registry_hostmanager: "{{ hostvars[groups['swarm-managers'] | first]['ansible_host'] }}"
 registry_localhost: 127.0.0.1
+daemon_file: /etc/docker/daemon.json
+daemon_content: "{\"insecure-registries\" : [\"127.0.0.1:5000\"]}"
+registry_htpasswd_file: /data/registry.htpasswd

@@ -1,0 +1,28 @@
+---
+- name: Create /data/docker-registry-cache
+  ansible.builtin.file:
+    path: "{{ registry_cache }}"
+    state: directory
+
+- name: Copy the registry-cache stack file
+  ansible.builtin.template:
+    src: registry-cache.yml
+    dest: /opt/registry-cache.yml
+
+- name: Copy the registry-cache config file
+  ansible.builtin.template:
+    src: registry-cache.config.yml
+    dest: "{{ registry_cache }}/registry-cache.config.yml"
+
+- name: Create registry cache configuration
+  community.docker.docker_config:
+    name: registry_cache_configuration
+    state: present
+    data_src: "{{ registry_cache }}/registry-cache.config.yml"
+
+- name: Deploy registry-cache stack from a compose file
+  community.docker.docker_stack:
+    state: present
+    name: registry-cache
+    compose:
+    - /opt/registry-cache.yml

@@ -4,11 +4,6 @@
     src: traefik.yml
     dest: /opt/traefik.yml
     mode: "0644"
-  
-# - name: Copy the acme.json file 
-#   ansible.builtin.template:
-#     src: acme.json
-#     dest: /opt/acme.json
 
 - name: Copy the ssl int docker file directory
   ansible.builtin.copy:
@@ -27,6 +22,15 @@
     path: /data/traefik
     state: directory
     mode: "0644"
+
+- name: Build and push nextcloud container
+  community.docker.docker_image:
+    build:
+      path: /opt/sslgenerator/ssl-init/
+    name: 127.0.0.1:5000/alpine/openssl:latest
+    tag: latest
+    push: true
+    source: build
 
 - name: Deploy stack from a compose file
   community.docker.docker_stack:

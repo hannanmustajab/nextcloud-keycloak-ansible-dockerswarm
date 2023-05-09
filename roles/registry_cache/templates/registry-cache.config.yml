@@ -5,7 +5,7 @@ log:
     service: registry-cache
 storage:
   filesystem:
-    rootdirectory: /var/lib/registry-cache
+    rootdirectory: /var/lib/registry
   delete:
     enabled: true
 http:
@@ -19,8 +19,8 @@ health:
     enabled: true
     interval: 10s
     threshold: 3
-#mirrors:
-#  - http://127.0.0.1:5001
+mirrors:
+  - http://127.0.0.1:5001
     
 prometheus:
   enabled: true

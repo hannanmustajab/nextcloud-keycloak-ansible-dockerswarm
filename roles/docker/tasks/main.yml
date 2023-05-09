@@ -3,14 +3,14 @@
   ansible.builtin.apt:
     update_cache: true
 
-- name: Add Docker repository
-  ansible.builtin.apt_repository:
-    repo: "deb https://download.docker.com/linux/ubuntu focal stable"
-    state: present
-
 - name: Add Docker key
   ansible.builtin.apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker repository
+  ansible.builtin.apt_repository:
+    repo: "deb https://download.docker.com/linux/ubuntu focal stable"
     state: present
 
 - name: Install pip

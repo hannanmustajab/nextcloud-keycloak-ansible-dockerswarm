@@ -1,4 +1,9 @@
 ---
+- name: Create /data/docker-registry
+  ansible.builtin.file:
+    path: "{{ registry }}"
+    state: directory
+
 - name: Copy the registry stack file
   ansible.builtin.template:
     src: registry.yml
@@ -7,22 +12,38 @@
 - name: Copy the registry config file
   ansible.builtin.template:
     src: registry.config.yml
-    dest: /data/registry.config.yml
+    dest: "{{ registry }}/registry.config.yml"
 
 - name: Install apache2-utils for htpasswd
   ansible.builtin.apt:
     name: apache2-utils
-  
-- name: Create registry password file
-  shell:
-  args:
-    cmd: >-
-      htpasswd -nbB vcc vcc > /data/registry.htpasswd
 
-- name: Create /data/docker-registry
+- name: Install passlib with pip
+  ansible.builtin.pip:
+    name: passlib
+    state: present
+    executable: pip3
+  become: true
+
+- name: Create registry configuration
+  community.docker.docker_config:
+    name: registry_configuration
+    state: present
+    data_src: "{{ registry }}/registry.config.yml"
+
+- name: Create htpasswd file
   ansible.builtin.file:
-    path: /data/docker-registry
-    state: directory
+    path: "{{ registry_htpasswd_file }}"
+    state: touch
+    mode: '0755'
+   
+- name: Insert passwords in htpasswd file
+  community.general.htpasswd:
+    path: "{{ registry_htpasswd_file }}"
+    name: "{{ REGISTRY_USER }}"
+    password: "{{ REGISTRY_PASSWORD}}"
+    crypt_scheme: bcrypt
+    mode: '0777'
 
 - name: Deploy registry stack from a compose file
   community.docker.docker_stack:
@@ -30,4 +51,3 @@
     name: registry
     compose:
     - /opt/registry.yml
-

@@ -12,5 +12,5 @@ services:
     volumes:
       - /data/docker-registry-cache:/var/lib/registry-cache
       - /data/docker-registry-cache/registry-cache.config.yml:/etc/docker/registry-cache/config.yml:ro
-      #- /data/docker-registry-cache/registry-cache.htpasswd:/etc/registry-cache.htpasswd:ro
+      #- /data/registry.htpasswd:/etc/registry-cache.htpasswd:ro
     

@@ -1,84 +1,77 @@
 ---
-- name: Install/Update prerequisites.
-  hosts: all
-  become: true
-  roles:
-    - role: update
-
 - name: Common part of the playbook for both nodes
   hosts: all
   become: true
+  vars_files: 
+    - secrets.yml
   roles:
+    - update
     - nfs
     - docker
     - logging_common
     - docker_swarm
 
-- name: Setup local docker registry for custom images
+- name: Registry Services
   hosts: node1
+  vars_files: 
+    - secrets.yml
   become: true
   roles:
-    - role: registry
+    - registry
+    - registry_cache
 
-- name: Login in local docker registry with "VCC" user
+- name: Registry Login
   hosts: all
+  vars_files: 
+    - secrets.yml
   become: true
-  tasks:
-    - name: Login
-      community.docker.docker_login:
-        username: vcc
-        password: vcc
-        registry_url: http://127.0.0.1:5000
-      register: docker_registry_login
-      # until: docker_registry_login is success
-      # retries: 300
-      delay: 1
-
-
+  roles:
+    - registry_login
+    
 - name: Database Services
   hosts: node1
+  vars_files: 
+    - secrets.yml
   become: true
-  vars_files:
-    - "{{ playbook_dir }}/secrets.yml"
   roles:
-    - role: database
-
+    - database
 
 - name: Keycloak Services
   hosts: node1
+  vars_files: 
+    - secrets.yml
   become: true
-  vars_files:
-    - "{{ playbook_dir }}/secrets.yml"
   roles:
-    - role: keycloak
-
+    - keycloak
 
 - name: Nextcloud Services
   hosts: node1
+  vars_files: 
+    - secrets.yml
   become: true
-  vars_files:
-    - "{{ playbook_dir }}/secrets.yml"
   roles:
-    - role: nextcloud
-
+    - nextcloud
 
 - name: Traefik Services
   hosts: node1
+  vars_files: 
+    - secrets.yml
   become: true
   roles:
-    - role: traefik
+    - traefik
 
-
-- name: Logging services part of the playbook for both nodes
+- name: Logging services
   hosts: node1
+  vars_files: 
+    - secrets.yml
   become: true
   roles:
     - logging
 
-- name: Grafana services part of the playbook
+- name: Grafana services
   hosts: node1
+  vars_files: 
+    - secrets.yml
   become: true
-  vars_files:
-    - "{{ playbook_dir }}/secrets.yml"
   roles:
     - monitoring

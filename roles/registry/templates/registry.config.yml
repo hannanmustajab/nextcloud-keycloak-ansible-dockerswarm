@@ -1,20 +1,28 @@
 version: 0.1
-
+name: registry_configuration
+log:
+  fields:
+    service: registry
 storage:
   filesystem:
     rootdirectory: /var/lib/registry
   delete:
     enabled: true
-
+http:
+  addr: :5000
+  #debug:
+  #  addr: :5001
 auth:
   htpasswd:
     realm: Docker registry
     path: /etc/registry.htpasswd
-
-http:
-  addr: :5000
-  debug:
-    addr: :5001
+health:
+  storagedriver:
+    enabled: true
+    interval: 10s
+    threshold: 3
+mirrors:
+  - http://127.0.0.1:5001
 
 prometheus:
   enabled: true

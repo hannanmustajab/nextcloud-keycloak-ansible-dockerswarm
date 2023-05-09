@@ -6,36 +6,27 @@ configs:
 volumes:
   data: {}
 
-networks:
-  # overlay_swarm_net:
-  #   name: overlay_swarm_net
-  #   external: true
-
-  traefik_public:
-    external: true
-
 services:
-
   loki:
-    image: grafana/loki:2.7.3
+    image: grafana/loki:2.7.1
     configs:
       - source: loki_config
         target: /etc/loki/loki-config.yaml
-        #  chmod 777 was needed to persist data for loki
     volumes:
       - /data/loki:/loki
     networks:
       - traefik_public
     deploy:
       placement:
-        constraints: [node.hostname == node1]
+        constraints:
+          - node.role == manager
 
   fluent-bit:
     image: cr.fluentbit.io/fluent/fluent-bit:2.0.6
     deploy:
       mode: global
     environment:
-      - LOKI_URL=http://loki:3100/loki/api/v1/push
+      LOKI_URL: http://loki:3100/loki/api/v1/push
     networks:
       - traefik_public
     volumes:
@@ -62,7 +53,8 @@ services:
       mode: replicated
       replicas: 1
       placement:
-        constraints: [node.hostname == node1]
+        constraints: 
+          - node.role == manager
     networks:
       - traefik_public
     volumes:
@@ -97,25 +89,29 @@ services:
       - '--collector.filesystem.ignored-mount-points="^(/rootfs|/host|)/(sys|proc|dev|host|etc)($$|/)"'
       - '--collector.filesystem.ignored-fs-types="^(sys|proc|auto|cgroup|devpts|ns|au|fuse\.lxc|mqueue)(fs|)$$"'
 
-  cadvisor:
-    image: gcr.io/cadvisor/cadvisor-arm64:0.99-porterdavid
-    command: ["start", "--privileged"]
-    networks:
-      - traefik_public
-    privileged: true
-    deploy:
-      mode: global
-      labels:
-        prometheus-job: cadvisor
-    devices:
-      - /dev/kmsg:/dev/kmsg
-    volumes:
-        - /:/rootfs:ro
-        - /var/run:/var/run:ro
-        - /sys:/sys:ro
-        - /var/lib/docker/:/var/lib/docker:ro
-        - /dev/disk/:/dev/disk:ro
-        - /etc/machine-id:/etc/machine-id:ro
-        - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
-        - /dev/kmsg:/dev/kmsg:rw
+#  cadvisor:
+#    image: gcr.io/cadvisor/cadvisor-arm64:0.99-porterdavid
+#    command: ["start", "--privileged"]
+#    networks:
+#      - traefik_public
+#    privileged: true
+#    deploy:
+#      mode: global
+#      labels:
+#        prometheus-job: cadvisor
+#    devices:
+#      - /dev/kmsg:/dev/kmsg
+#    volumes:
+#        - /:/rootfs:ro
+#        - /var/run:/var/run:ro
+#        - /sys:/sys:ro
+#        - /var/lib/docker/:/var/lib/docker:ro
+#        - /dev/disk/:/dev/disk:ro
+#        - /etc/machine-id:/etc/machine-id:ro
+#        - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
+#        - /dev/kmsg:/dev/kmsg:rw
         
+
+networks:
+  traefik_public:
+    external: true
