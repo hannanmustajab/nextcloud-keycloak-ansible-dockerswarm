@@ -23,7 +23,7 @@
     state: directory
     mode: "0644"
 
-- name: Build and push nextcloud container
+- name: Build and push ssl init container
   community.docker.docker_image:
     build:
       path: /opt/sslgenerator/ssl-init/

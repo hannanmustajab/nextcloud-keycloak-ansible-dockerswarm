@@ -2,7 +2,7 @@ version: '3'
 
 services:
   reverse-proxy-https-init:
-      image: 127.0.0.1:5000/alpine/openssl:latest
+      image: 127.0.0.1:5000/alpine/openssl:3.14
       build: 
         context: /opt/sslgenerator/ssl-init
         dockerfile: Dockerfile
@@ -47,6 +47,7 @@ services:
       # log
       - "--accesslog=true"
       - "--accesslog.filePath=/logs/access.log"
+
     ports:
       # The Web UI (enabled by --api.insecure=true)
       - "8081:8080"
@@ -58,8 +59,11 @@ services:
       - /data/certs:/etc/ssl/traefik
       - /var/run/docker.sock:/var/run/docker.sock
       - /data/traefik:/etc/traefik/dynamic
+
+
     networks:
       - traefik_public
+   
     deploy:
       mode: replicated
       replicas: 1
@@ -70,3 +74,6 @@ services:
 networks:
   traefik_public:
     external: true
+
+
+
